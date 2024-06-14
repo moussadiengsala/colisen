@@ -13,12 +13,12 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card"
-import Landing from './ui/background';
+import Landing from './ui/landing';
 
 export default function Header() {
   return (
     <div className="flex justify-center w-full desktop:min-h-screen">
-      <div className='flex flex-col items-center w-full max-w-7xl p-3 text-sm space-y-10 desktop:justify-around relative'>
+      <div className='flex flex-col items-center w-full max-w-7xl p-3 text-sm space-y-10 desktop:justify-around relative  border-2 border-b-custom-dark-60'>
         <Landing />
         <Card className='bg-custom-light-98 rounded-md space-y-5 p-4 flex flex-col justify-center items-center w-full max-w-lg desktop:max-w-full desktop:w-full desktop:flex-row desktop:space-y-0 desktop:space-x-5 desktop:p-8'>
           <Card className='flex flex-col w-full max-w-lg desktop:w-fit desktop:max-w-fit'>
