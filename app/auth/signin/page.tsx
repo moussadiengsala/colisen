@@ -12,8 +12,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
-import { SubmitButton } from "../submit-button"
 import { InfoLog } from "../info-log"
+import { SubmitButton } from "@/components/ui/submit-button"
 
 export default function SignIn({
     searchParams
@@ -61,7 +61,7 @@ export default function SignIn({
                     <div className="grid gap-2">
                         <div className="flex items-center">
                         <Label htmlFor="password">Password</Label>
-                        <Link href="#" className="ml-auto inline-block text-sm underline">
+                        <Link href="/auth/forget-password" className="ml-auto inline-block text-sm underline">
                             Forgot your password?
                         </Link>
                         </div>

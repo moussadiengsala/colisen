@@ -9,7 +9,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {PhoneInput} from "@/components/ui/numberphone"
-import { SubmitButton } from "../submit-button"
+import { SubmitButton } from "@/components/ui/submit-button"
 import { headers } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";

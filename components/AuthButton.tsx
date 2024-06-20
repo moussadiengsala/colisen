@@ -62,10 +62,10 @@ export default async function AuthButton() {
       ) : (
           <div className='flex gap-2'>
             <Button asChild className='px-4 bg-custom-sky-50 hover:bg-custom-sky-60'>
-                <Link href="signin">Connexion</Link>
+                <Link href="auth/signin">Connexion</Link>
             </Button>
             <Button asChild className='px-4 hover:bg-custom-dark-40'>
-                <Link href="signup">Inscription</Link>
+                <Link href="auth/signup">Inscription</Link>
             </Button>
           </div>
     );
