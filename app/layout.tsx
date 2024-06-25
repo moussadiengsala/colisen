@@ -1,8 +1,10 @@
+
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 
 import { Inter as FontSans } from "next/font/google"
 import { cn } from "@/lib/utils"
+import Nav from "@/components/Nav";
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -19,14 +21,15 @@ export const metadata = {
 };
 
 export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+    children,
+  }: {
+    children: React.ReactNode;
+  }) {
   return (
     // <html lang="en" className={GeistSans.className}>
     <html lang="en" suppressHydrationWarning >
       <body  className={cn( "min-h-screen bg-custom-light-90 font-sans antialiased", fontSans.variable)}>
+        <Nav />
         <main className="flex flex-col items-center">
           {children}
         </main>

@@ -11,7 +11,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { InfoLog } from '../info-log';
+import { InfoLog } from '../../../components/ui/info-log';
 import { headers } from 'next/headers';
 
 export default function ForgetPassword({

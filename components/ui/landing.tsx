@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from './button';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Landing() {
     return (
@@ -12,7 +13,9 @@ export default function Landing() {
                 </span>
             </div>
             <p className='text-custom-dark-40 text-center'>publiez une annonce  ou trouvez un GP en quelques clis!</p>
-            <Button className='bg-custom-sky-50 hover:bg-custom-sky-60'>Publier une annonce</Button>
+            <Button className='bg-custom-sky-50 hover:bg-custom-sky-60'>
+                <Link href="create-annonce" className='w-full h-full'>Publier une annonce</Link>
+            </Button>
 
             <Image width={300} height={100} src="/bg-3.svg" alt="bg3" className='absolute w-10 left-0 -top-5 -z-[100] tablet:left-[10%]' />
             <Image width={300} height={100} src="/bg-4.svg" alt="bg4" className='absolute w-10 right-0 top-1/4 -z-[100] tablet:right-[10%]' />

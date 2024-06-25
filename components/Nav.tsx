@@ -1,4 +1,3 @@
-// "use client"
 
 // import React from 'react'
 import AuthButton from './AuthButton'
@@ -39,7 +38,7 @@ export default function Nav() {
                                     </Button>
                             ))}
                         </div>
-                        <AuthButton />
+                        <AuthButton isMobile={false}/>
                     </div>
                 </div>
 

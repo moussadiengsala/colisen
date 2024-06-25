@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/updateProfile.jsx", "components/update.jsx", "app/auth/update-profile/page.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/updateProfile.jsx", "components/update.jsx", "app/update-profile/page.tsx", "components/ui/country-select.tsx"],
   "exclude": ["node_modules"]
 }
