@@ -84,7 +84,7 @@ export default async function Annonce({annonce} : {annonce: AnnonceGetData}) {
                                     </div>
                                     <div className='flex items-center gap-4'>
                                         <CalendarDays />
-                                        <span>{format(parseISO(annonce.destination_date), 'EEE MMM dd yyyy')}</span>
+                                        <span>{format(parseISO(annonce.departure_date), 'EEE MMM dd yyyy')}</span>
                                     </div>
                                 </div>
                             </CardContent>

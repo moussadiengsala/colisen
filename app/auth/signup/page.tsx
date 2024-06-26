@@ -50,58 +50,60 @@ export default function SignUp({
         });
     
         if (error) {
-            return redirect("signup?message=Could not authenticate user&iserror=true");
+            return redirect("signup?message=Trouble pour vous inscrir reessayer plus tard.&iserror=true");
         }
     
-        return redirect("signup?message=Check email to continue sign in process&iserror=false");
+        return redirect("signup?message=Verifier email pour continue&iserror=false");
     };
 
     return (
-        <Card className="mx-auto max-w-sm">
-            <CardHeader>
-                <CardTitle className="text-xl">Inscription</CardTitle>
-                <CardDescription>
-                mettez vos informations pour creer un compte!
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
-                <form className="grid gap-4">
-                    <div className="grid grid-rows-2 gap-4 tablet:grid-cols-2 tablet:grid-rows-1">
-                        <div className="grid gap-2">
-                            <Label htmlFor="first-name">Prenom</Label>
-                            <Input id="first-name" name="first-name" placeholder="Max" required />
+        <div className="flex items-center justify-center my-auto w-full max-w-7xl px-3 py-10 text-sm space-y-10 desktop:justify-around relative">
+            <Card className="mx-auto w-full max-w-xl min-w-sm desktop:w-1/2">
+                <CardHeader>
+                    <CardTitle className="text-xl">Inscription</CardTitle>
+                    <CardDescription>
+                        mettez vos informations pour créer un compte!
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <form className="grid gap-4">
+                        <div className="grid grid-rows-2 gap-4 tablet:grid-cols-2 tablet:grid-rows-1">
+                            <div className="grid gap-2">
+                                <Label htmlFor="first-name">Prenom</Label>
+                                <Input id="first-name" name="first-name" placeholder="Max" required />
+                            </div>
+                            <div className="grid gap-2">
+                                <Label htmlFor="last-name">Nom</Label>
+                                <Input id="last-name" name="last-name" placeholder="Robinson" required />
+                            </div>
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor="last-name">Nom de famille</Label>
-                            <Input id="last-name" name="last-name" placeholder="Robinson" required />
+                            <Label htmlFor="telephone">Telephone</Label>
+                            <PhoneInput id="telephone" name="telephone" defaultCountry="SN" required />
                         </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="email">Email</Label>
+                            <Input id="email" type="email" name="email" placeholder="m@example.com" required />
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="password">Mot de passe</Label>
+                            <Input id="password" name="password" type="password" />
+                        </div>
+                        <SubmitButton formAction={signUp} className="w-full" pendingText="Inscription..." >
+                            Inscription
+                        </SubmitButton>
+                    </form>
+                    <div className="mt-4 text-center text-sm">
+                        J&apos;ai deja un compte ?{" "}
+                        <Link href="signin" className="underline">
+                            Connexion
+                        </Link>
                     </div>
-                    <div className="grid gap-2">
-                        <Label htmlFor="telephone">Telephone</Label>
-                        <PhoneInput id="telephone" name="telephone" defaultCountry="SN" required />
-                    </div>
-                    <div className="grid gap-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="email" name="email" placeholder="m@example.com" required />
-                    </div>
-                    <div className="grid gap-2">
-                        <Label htmlFor="password">Mot de pass</Label>
-                        <Input id="password" name="password" type="password" />
-                    </div>
-                    <SubmitButton formAction={signUp} className="w-full" pendingText="Inscription..." >
-                        Inscription
-                    </SubmitButton>
-                </form>
-                <div className="mt-4 text-center text-sm">
-                    Already have an account?{" "}
-                    <Link href="signin" className="underline">
-                        Connexion
-                    </Link>
-                </div>
-                {searchParams?.message && (
-                    <InfoLog message={searchParams.message} error={searchParams.iserror} />
-                )}
-            </CardContent>
-        </Card>
+                    {searchParams?.message && (
+                        <InfoLog message={searchParams.message} error={searchParams.iserror} />
+                    )}
+                </CardContent>
+            </Card>
+        </div>
     )
 }

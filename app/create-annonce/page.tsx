@@ -38,10 +38,6 @@ export default async function CreateAnnonce() {
         data: { user },
     } = await supabase.auth.getUser();
 
-    // if (!user) {
-    //     return redirect("auth/signin");
-    // }
-
     const createAnnonce = async (formData: FormData) => {
         "use server";
         const entries = Object.fromEntries(formData.entries()) as { [key: string]: string };
@@ -57,8 +53,11 @@ export default async function CreateAnnonce() {
                 country: entries["destination-country"],
                 state: entries["destination-state"],
                 city: entries["destination-city"],
-                date: entries["destination-date"],
-                limitDate: entries["limit-date"],
+            },
+            date: {
+                departure: entries["departure-date"],
+                arrival: entries["arrival-date"],
+                limit: entries["limit-date"],
             },
             weight: {
                 total: entries["total-weight"],
@@ -86,8 +85,9 @@ export default async function CreateAnnonce() {
             destination_state: annonceData.destination.state,
             destination_city: annonceData.destination.country,
 
-            destination_date: annonceData.destination.date,
-            limit_depot: annonceData.destination.limitDate,
+            departure_date: annonceData.date.departure,
+            arrival_date: annonceData.date.arrival,
+            limit_depot: annonceData.date.limit,
 
             total_weight: annonceData.weight.total,
             total_weight_unit: annonceData.weight.unit,
@@ -115,8 +115,12 @@ export default async function CreateAnnonce() {
                     <SelectCountry name="destination" title="Pays de destination" />
 
                     <div className="grid gap-2">
+                        <Label>Date depart prévue</Label>
+                        <DatePickerWithPresets name="departure-date"/>
+                    </div>
+                    <div className="grid gap-2">
                         <Label>Date d'arrivée prévue</Label>
-                        <DatePickerWithPresets name="destination-date"/>
+                        <DatePickerWithPresets name="arrival-date"/>
                     </div>
                     <div className="grid gap-2">
                         <Label>Date limite de dépôt</Label>

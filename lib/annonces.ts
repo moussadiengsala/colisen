@@ -11,8 +11,11 @@ export const AnnonceSchema = z.object({
         country: z.string().nonempty("Destination country is required."),
         state: z.string().nonempty("Destination state is required."),
         city: z.string().nonempty("Destination city is required."),
-        date: z.string().nonempty("Destination date is required."),
-        limitDate: z.string().nonempty("Limit date is required."),
+    }),
+    date: z.object({
+        departure: z.string().nonempty("Departure date is required."),
+        arrival: z.string().nonempty("Arrival date is required."),
+        limit: z.string().nonempty("Limit date is required."),
     }),
     weight: z.object({
         total: z.string().nonempty("Total weight is required."),
@@ -31,8 +34,8 @@ export type AnnonceGetData = {
     id: number;
     user_id: string;
     created_at: string;
-    origin_date: string;
-    destination_date: string;
+    departure_date: string;
+    arrival_date: string;
     total_weight: number;
     total_weight_unit: string;
     price_amount: number;

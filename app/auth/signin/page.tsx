@@ -33,54 +33,55 @@ export default function SignIn({
         });
     
         if (error) {
-            return redirect("signin?message=Could not authenticate user&iserror=true");
+            return redirect("signin?message=Trouble pour vous coonecter reessayer plus tard.&iserror=true");
         }
     
-        return redirect("/protected");
+        return redirect("/annonce");
     };
+    //mx-auto max-w-sm
     return (
-        <Card className="mx-auto max-w-sm">
-            <CardHeader>
-                <CardTitle className="text-2xl">Login</CardTitle>
-                <CardDescription>
-                Enter your email below to login to your account
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
-                <form className="grid gap-4">
-                    <div className="grid gap-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input
-                            id="email"
-                            type="email"
-                            name="email"
-                            placeholder="m@example.com"
-                            required
-                        />
-                    </div>
-                    <div className="grid gap-2">
-                        <div className="flex items-center">
-                        <Label htmlFor="password">Password</Label>
-                        <Link href="/auth/forget-password" className="ml-auto inline-block text-sm underline">
-                            Forgot your password?
-                        </Link>
+        <div className="flex items-center justify-center my-auto w-full max-w-7xl px-3 py-10 text-sm space-y-10 desktop:justify-around relative">
+            <Card className="mx-auto w-full max-w-xl min-w-sm desktop:w-1/2">
+                <CardHeader>
+                    <CardTitle className="text-2xl">Connexion</CardTitle>
+                    <CardDescription>
+                        Enter vos informations pour vous connecter!
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <form className="grid gap-4">
+                        <div className="grid gap-2">
+                            <Label htmlFor="email">Email</Label>
+                            <Input
+                                id="email"
+                                type="email"
+                                name="email"
+                                placeholder="m@example.com"
+                                required
+                            />
                         </div>
-                        <Input id="password" type="password" name="password" required />
+                        <div className="grid gap-2">
+                            <Label htmlFor="password">Mot de passe</Label>
+                            <Input id="password" type="password" name="password" required />
+                        </div>
+                        <Link href="/auth/forget-password" className="ml-auto inline-block text-sm underline">
+                            J&apos;ai oublié mon mot de passe ?
+                        </Link>
+                        <SubmitButton formAction={signIn} className="w-full" pendingText="Connexion..." >
+                            Connexion
+                        </SubmitButton>
+                    </form>
+                    <div className="mt-4 text-center text-sm">
+                        Je n&apos;ai pas de compte ?{" "}
+                        <Link href="signup" className="underline">
+                            Inscription
+                        </Link>
                     </div>
-                    <SubmitButton formAction={signIn} className="w-full" pendingText="Connexion..." >
-                        Connexion
-                    </SubmitButton>
-                </form>
-                <div className="mt-4 text-center text-sm">
-                    Don&apos;t have an account?{" "}
-                    <Link href="signup" className="underline">
-                        Inscription
-                    </Link>
-                </div>
-                {searchParams?.message && (
-                    <InfoLog message={searchParams.message} error={searchParams.iserror} />
-                )}
-            </CardContent>
-        </Card>
+                    {searchParams?.message && (
+                        <InfoLog message={searchParams.message} error={searchParams.iserror} />
+                    )}
+                </CardContent>
+            </Card>
+        </div>
     )
 }

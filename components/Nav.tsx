@@ -5,16 +5,9 @@ import { Button } from './ui/button'
 import MobileNavigation from './ui/mobilenavigation'
 import Link from 'next/link'
 import { navigation } from '@/data'
-import {
-    NavigationMenu,
-    NavigationMenuLink,
-    NavigationMenuList,
-    navigationMenuTriggerStyle
-} from "@/components/ui/navigation-menu"
-
 
 const navigtions: navigation[] = [
-    {label: "annonces", href: "#"},
+    {label: "annonces", href: "/annonce"},
     {label: "suivi des colis", href: "#"},
     {label: "contact", href: "#"},
 ]
