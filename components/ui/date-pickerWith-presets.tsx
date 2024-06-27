@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/select"
 import { CalendarIcon } from "lucide-react"
 
-export function DatePickerWithPresets({name}: {name: string;}) {
+export function DatePickerWithPresets({name}: {name: string}) {
     const [date, setDate] = React.useState<Date>()
 
     return (

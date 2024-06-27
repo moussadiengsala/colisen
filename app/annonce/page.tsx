@@ -5,6 +5,7 @@ import FetchDataSteps from "@/components/tutorial/FetchDataSteps";
 import { redirect } from "next/navigation";
 import { AnnonceGetData } from "@/lib/annonces";
 import Annonce from "@/components/ui/annonce";
+import Filter from "@/components/ui/filter";
 
 export default async function ProtectedPage() {
   const supabase = createClient();
@@ -14,17 +15,17 @@ export default async function ProtectedPage() {
   return (
     <div className="flex-1 w-full flex flex-col gap-20 items-center">
       <div className="w-full flex flex-col justify-center items-center desktop:flex-row gap-4">
-            {!data ? 
-                <div className='w-full p-6 text-center text-custom-dark-60 capitalize text-lg'>
-                    no annonce yet!
-                </div>
-            : data.map(annonce => (
-                <>
-                    <Annonce annonce={annonce} key={`annonce-${annonce.id}`}/>
-                    <Annonce annonce={annonce} key={`annonce1-${annonce.id}`}/>
-                    <Annonce annonce={annonce} key={`annonce2-${annonce.id}`}/>
-                </>
-            ))}
+            <Filter />
+            <div>
+              {!data ? 
+                  <div className='w-full p-6 text-center text-custom-dark-60 capitalize text-lg'>
+                      no annonce yet!
+                  </div>
+              : 
+                  <>
+                    liste here 
+                  </>}
+            </div>
         </div>
     </div>
   );

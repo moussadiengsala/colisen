@@ -3,7 +3,7 @@ import React from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Calendar } from './ui/calendar';
-import { DatePickerWithRange } from './ui/dateoicker';
+import { DatePickerWithRange } from './ui/date-picker-with-range';
 import Image from 'next/image';
 import {
   Card,

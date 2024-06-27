@@ -47,39 +47,28 @@ export default async function Annonce({annonce} : {annonce: AnnonceGetData}) {
                             <span>{user.last_name}</span>
                         </div>
                     </div>
-                    <div>
-                        <div className='flex items-center gap-2'>
-                            <PhoneCallIcon className='w-5 h-5'/>
-                            <span>+{user.telephone}</span>
-                        </div>
-                        <div className='flex items-center gap-2'>
-                            <MapPin />
-                            <div className='flex flex-col'>
-                                <span>{annonce.origin_country}</span>
-                                <span>{annonce.origin_state}</span>
-                                <span>{annonce.origin_city}</span>
-                            </div>
-                        </div>
+                    <div className='flex items-center gap-2'>
+                        <PhoneCallIcon className='w-5 h-5'/>
+                        <span>+{user.telephone}</span>
                     </div>
                 </div>
             </CardHeader>
             <Separator />
-            <CardContent className='space-y-4'>
-                <div className='flex flex-col gap-2 tablet:grid grid-cols-2 desktop:flex'>
-                    <div className='flex flex-col'>
-                        <Card className='flex items-center flex-1'>
-                            <CardHeader>
+            <CardContent className='space-y-2'>
+                    <div className='flex flex-col gap-2 tablet:flex-row desktop:flex-col'>
+                        <Card className='flex flex-col items-center flex-1'>
+                            <CardHeader className='w-full flex flex-row items-center gap-2 px-4 py-2'>
                                 <PlaneLanding />
-                                <CardTitle className='font-light text-base'>destination</CardTitle>
+                                <CardTitle className='font-light text-base'>
+                                    <p className='text-custom-dark-40'>Lieu de collect des colis et le date de départ.</p>
+                                </CardTitle>
                             </CardHeader>
-                            <CardContent className='flex justify-center items-center p-2'>
+                            <CardContent className='flex w-full px-4 py-2'>
                                 <div className='space-y-2'>
                                     <div className='flex items-center gap-4'>
                                         <MapPin />
-                                        <div className='flex flex-col'>
-                                            <span>{annonce.destination_country}</span>
-                                            <span>{annonce.destination_state}</span>
-                                            <span>{annonce.destination_city}</span>
+                                        <div className=''>
+                                            <p>{annonce.destination_country} {annonce.destination_state} {annonce.destination_city}</p>
                                         </div>
                                     </div>
                                     <div className='flex items-center gap-4'>
@@ -89,14 +78,36 @@ export default async function Annonce({annonce} : {annonce: AnnonceGetData}) {
                                 </div>
                             </CardContent>
                         </Card>
-                        <Badge variant="outline" className='p-4 flex gap-2 rounded-md'>
-                            <CircleAlert />
-                            <div className="flex justify-center gap-2">
-                                <span>Limit depot</span>
-                                <span>{format(parseISO(annonce.limit_depot), 'EEE MMM dd yyyy')}</span>
-                            </div>
-                        </Badge>
+                        <Card className='flex flex-col items-center flex-1'>
+                            <CardHeader className='w-full flex flex-row items-center gap-2 px-4 py-2'>
+                                <PlaneLanding />
+                                <CardTitle className='font-light text-base'>
+                                    <p className='text-custom-dark-40 text-base font-medium'>La destination du colis et le date d'arrivée prévu.</p>
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className='flex w-full px-4 py-2'>
+                                <div className='space-y-2'>
+                                    <div className='flex items-center gap-4'>
+                                        <MapPin />
+                                        <div className=''>
+                                            <p>{annonce.destination_country} {annonce.destination_state} {annonce.destination_city}</p>
+                                        </div>
+                                    </div>
+                                    <div className='flex items-center gap-4'>
+                                        <CalendarDays />
+                                        <span>{format(parseISO(annonce.departure_date), 'EEE MMM dd yyyy')}</span>
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
                     </div>
+                    <Badge variant="outline" className='p-4 flex gap-2 rounded-md'>
+                        <CircleAlert />
+                        <div className="flex justify-center gap-2">
+                            <span>Limit depot</span>
+                            <span>{format(parseISO(annonce.limit_depot), 'EEE MMM dd yyyy')}</span>
+                        </div>
+                    </Badge>
                     <Card className=''>
                         <CardHeader>
                             <CardTitle className='font-light text-base'>Detail</CardTitle>
@@ -115,7 +126,7 @@ export default async function Annonce({annonce} : {annonce: AnnonceGetData}) {
                             </div>
                         </CardContent>
                     </Card>
-                </div>
+                
                 <Button type='submit' className='bg-custom-sky-50 hover:bg-custom-sky-60 w-full'>Consulter</Button>
             </CardContent>
         </Card>

@@ -111,15 +111,15 @@ export default async function CreateAnnonce() {
             </CardHeader>
             <CardContent>
                 <form className="grid gap-4">
-                    <SelectCountry name="origine" title="Pays d'origine" />
-                    <SelectCountry name="destination" title="Pays de destination" />
+                    <SelectCountry name="origine" className=""/>
+                    <SelectCountry name="destination" className="" />
 
                     <div className="grid gap-2">
                         <Label>Date depart prévue</Label>
                         <DatePickerWithPresets name="departure-date"/>
                     </div>
                     <div className="grid gap-2">
-                        <Label>Date d'arrivée prévue</Label>
+                        <Label>Date d&apos;arrivée prévue</Label>
                         <DatePickerWithPresets name="arrival-date"/>
                     </div>
                     <div className="grid gap-2">
