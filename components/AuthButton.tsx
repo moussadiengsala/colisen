@@ -44,7 +44,7 @@ export default async function AuthButton({ isMobile }: {isMobile: boolean}) {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                   <Button asChild>
-                    <Link href={`/auth/update-profile?userid=${user.id}`}>update profile</Link>
+                    <Link href={`/update-profile?userid=${user.id}`}>update profile</Link>
                   </Button>
                 </DropdownMenuItem>
                 <DropdownMenuItem>

@@ -12,7 +12,7 @@ export async function middleware(request: NextRequest) {
 
   if (!session ) {
     // If there is no session and the user is not already on the sign-in page, redirect to the sign-in page
-    if (pathname !== "/" && !pathname.includes("/auth")) {
+    if (pathname !== "/" && pathname != "/annonce" && !pathname.includes("/auth")) {
       const signInUrl = request.nextUrl.clone();
       signInUrl.pathname = "/auth/signin";
       return NextResponse.redirect(signInUrl);

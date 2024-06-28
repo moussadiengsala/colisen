@@ -74,51 +74,55 @@ export default function AvatarProfile({ searchParams }: { searchParams: { userid
     }
 
     return (
-        <Card className="mx-auto max-w-sm">
-            <CardHeader>
-                <CardTitle className="text-xl">Upload profile</CardTitle>
-                <CardDescription>
-                    changer votre photo de profile
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
-                <div>
-                    {avatarUrl ? (
-                        <img
-                            src={avatarUrl}
-                            alt="Avatar"
-                            className="avatar image"
-                            style={{ height: size, width: size }}
-                        />
-                    ) : (
-                        <div className="avatar no-image" style={{ height: size, width: size }} />
-                    )}
-                </div>
-                <form className="grid gap-4">
-                    <div className="grid gap-2">
-                        <Label htmlFor="single">
-                            {/* <Button className='p-6 space-x-2 w-full'> */}
-                                <Image />
-                                <span>upload</span>
-                            {/* </Button> */}
-                        </Label>
-                        <Input 
-                            style={{
-                                visibility: 'hidden',
-                                position: 'absolute',
-                            }}
-                            type="file"
-                            id="single"
-                            accept="image/*"
-                            onChange={uploadAvatar}
-                            disabled={uploading}
-                            required />
+        <div className="flex items-center justify-center my-auto w-full max-w-7xl px-3 py-10 text-sm space-y-10 desktop:justify-around relative">
+            <Card className="mx-auto w-full max-w-xl min-w-sm desktop:w-1/2">
+                <CardHeader>
+                    <CardTitle className="text-xl">Upload profile</CardTitle>
+                    <CardDescription>
+                        changer votre photo de profile
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className='w-full flex justify-center items-center'>
+                        {avatarUrl ? (
+                            <img
+                                src={avatarUrl}
+                                alt="Avatar"
+                                className="avatar image"
+                                style={{ height: size, width: size }}
+                            />
+                        ) : (
+                            <div className="avatar no-image" style={{ height: size, width: size }} />
+                        )}
                     </div>
-                    <SubmitButton formAction={updateProfile} className="w-full" pendingText="uploadding..." >
-                        enregistrer
-                    </SubmitButton>
-                </form>
-            </CardContent>
-        </Card>
+                    <form className="grid gap-4 my-4">
+                        <div className="grid gap-2">
+                            <Label htmlFor="single">
+                                <Button asChild className='p-6 space-x-2 w-full bg-custom-sky-50 hover:bg-custom-sky-40'>
+                                    <span>
+                                        <Image />
+                                        <span>upload</span>
+                                    </span>
+                                </Button>
+                            </Label>
+                            <Input 
+                                style={{
+                                    visibility: 'hidden',
+                                    position: 'absolute',
+                                }}
+                                type="file"
+                                id="single"
+                                accept="image/*"
+                                onChange={uploadAvatar}
+                                disabled={uploading}
+                                required />
+                        </div>
+                        <SubmitButton formAction={updateProfile} className="w-full" pendingText="uploadding..." >
+                            enregistrer
+                        </SubmitButton>
+                    </form>
+                </CardContent>
+            </Card>
+        </div>
     )
 }

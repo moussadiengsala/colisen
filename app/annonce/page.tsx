@@ -13,18 +13,17 @@ export default async function ProtectedPage() {
         .select("*").order("created_at", { ascending: false }).limit(3).returns<AnnonceGetData[]>();
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-20 items-center">
-      <div className="w-full flex flex-col justify-center items-center desktop:flex-row gap-4">
+    <div className="flex-1 w-full flex justify-center items-center bg-red-500">
+      <div className="flex items-center w-full max-w-7xl p-3 text-sm space-y-10 desktop:justify-around relative bg-green-500">
             <Filter />
             <div>
-              {!data ? 
-                  <div className='w-full p-6 text-center text-custom-dark-60 capitalize text-lg'>
-                      no annonce yet!
-                  </div>
-              : 
+              {data?.map(annonce => (
                   <>
-                    liste here 
-                  </>}
+                    <Annonce annonce={annonce} key={`annonce-${annonce.id}`}/>
+                    <Annonce annonce={annonce} key={`annonce1-${annonce.id}`}/>
+                    <Annonce annonce={annonce} key={`annonce2-${annonce.id}`}/>
+                  </>
+              ))}
             </div>
         </div>
     </div>

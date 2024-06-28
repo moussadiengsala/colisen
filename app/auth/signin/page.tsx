@@ -38,7 +38,7 @@ export default function SignIn({
     
         return redirect("/annonce");
     };
-    //mx-auto max-w-sm
+
     return (
         <div className="flex items-center justify-center my-auto w-full max-w-7xl px-3 py-10 text-sm space-y-10 desktop:justify-around relative">
             <Card className="mx-auto w-full max-w-xl min-w-sm desktop:w-1/2">

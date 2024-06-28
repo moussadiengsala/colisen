@@ -81,8 +81,6 @@ export default function Filter() {
                     <CardContent className='p-0'>
                         <div className="grid gap-2">
                             <SelectPrices />
-                            <WeightUnitSelect name="weight-unit-price" label='Unité de poids par prix'/>
-                            <CurrencySelect name="currency" label="Devise" />
                         </div>
                     </CardContent>
                 </Card>

@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { addDays, format } from "date-fns"
+import { addDays, format, parseISO } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { DateRange } from "react-day-picker"
 
@@ -36,9 +36,21 @@ export function DatePickerWithRange({ className, name }: DatePickerWithRangeProp
             const currentParams = new URLSearchParams(Array.from(searchParams.entries()));
             currentParams.set(`${name}-from`, format(date.from, "yyyy-MM-dd"));
             currentParams.set(`${name}-to`, format(date.to, "yyyy-MM-dd"));
-            router.replace(`/annonce?${currentParams.toString()}`);
+            router.replace(`/annonce?${currentParams.toString()}`, {scroll: false});
         }
     };
+
+    // Initialize date based on URL parameters when the component mounts
+    React.useEffect(() => {
+        const fromParam = searchParams.get(`${name}-from`);
+        const toParam = searchParams.get(`${name}-to`);
+
+        if (fromParam && toParam) {
+            const fromDate = parseISO(fromParam);
+            const toDate = parseISO(toParam);
+            setDate({ from: fromDate, to: toDate });
+        }
+    }, [name, searchParams]);
 
     return (
         <div className={cn("grid gap-2", className)}>

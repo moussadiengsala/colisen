@@ -22,6 +22,24 @@ import flags from 'react-phone-number-input/flags';
 import { Input } from './input';
 import { useRouter, useSearchParams } from 'next/navigation';
 
+type CountryType = {
+    isoCode: string;
+    flag: string;
+    name: string
+}
+
+type StateType = {
+    isoCode: string;
+    countryCode: string;
+    name: string;
+}
+
+type CityType = {
+    countryCode: string;
+    stateCode: string;
+    name: string;
+}
+
 type SelectCountryStateCity = {
     name: string,
     className: string
@@ -29,16 +47,54 @@ type SelectCountryStateCity = {
 }
 
 function SelectCountryStateCity({ name, className, isForFilter }: SelectCountryStateCity) {
-    const [country, setCountry] = useState({ isoCode: "", flag: "", name: "" });
-    const [state, setState] = useState({ isoCode: "", countryCode:"", name: "" });
-    const [city, setCity] = useState({ stateCode: "", countryCode: "", name: "" });
+    const [country, setCountry] = useState<CountryType>({ isoCode: "", flag: "", name: "" });
+    const [state, setState] = useState<StateType>({ isoCode: "", countryCode:"", name: "" });
+    const [city, setCity] = useState<CityType>({ stateCode: "", countryCode: "", name: "" });
+    const searchParams = useSearchParams();
+
+    useEffect(() => {
+        const countryParam = searchParams.get(`${name}-country`);
+        const stateParam = searchParams.get(`${name}-state`);
+        const cityParam = searchParams.get(`${name}-city`);
+
+        let initialCountry: CountryType;
+        let initialState: StateType;
+
+        (() => {
+            if (countryParam) {
+                const selectedCountry = Country.getAllCountries().find(c => c.name === countryParam);
+                if (selectedCountry) {
+                    initialCountry = { isoCode: selectedCountry.isoCode, flag: selectedCountry.flag, name: selectedCountry.name }
+                    setCountry(initialCountry);
+                    setState({ isoCode: "", countryCode: selectedCountry.isoCode, name: "" })
+                    setCity({ countryCode: selectedCountry.isoCode, stateCode: "", name: "" })
+                }
+            }
+        })()
+
+        if (stateParam) {
+            const selectedState = State.getAllStates().find(s => s.name === stateParam && s.countryCode === initialCountry.isoCode);
+            if (selectedState) {
+                initialState = { isoCode: selectedState.isoCode, countryCode: selectedState.countryCode, name: selectedState.name }
+                setState(initialState);
+                setCity({ countryCode: selectedState.countryCode, stateCode: selectedState.isoCode, name: "" })
+            }
+        }
+
+        if (cityParam) {
+            const selectedCity = City.getAllCities().find(c => c.name === cityParam && c.stateCode === initialState.isoCode && c.countryCode === initialCountry.isoCode);
+            if (selectedCity) {
+                setCity({ stateCode: selectedCity.stateCode, countryCode: selectedCity.countryCode, name: selectedCity.name });
+            }
+        }
+    }, [name, searchParams]);
 
     return (    
         <Card>
             <CardContent className={className}>
                 <div className="grid gap-2">
                     <Label htmlFor={`${name}-country-name`} >Pays</Label>
-                    <SelectCountry setCountry={setCountry} setState={setState} setCity={setCity} isForFilter={isForFilter} name={name} />
+                    <SelectCountry country={country} setCountry={setCountry} setState={setState} setCity={setCity} isForFilter={isForFilter} name={name} />
                     <input type="hidden" id={`${name}-country-name`} name={`${name}-country`} value={country.name} />
                     <input type="hidden" id={`${name}-country-flag`} name={`${name}-country-flag`} value={country.flag} />
                 </div>
@@ -85,9 +141,10 @@ type SelectCountryProps = {
     setState: SetterStateType,
     setCity: SetterCityType,
     isForFilter?: boolean,
+    country: CountryType
 }
 
-export function SelectCountry({ setCountry, setState, setCity, isForFilter, name }: SelectCountryProps) {
+export function SelectCountry({ setCountry, setState, setCity, isForFilter, name, country }: SelectCountryProps) {
     const [searchCountry, setSearchCountry] = useState("");
     const router = useRouter()
     const searchParams = useSearchParams()
@@ -108,14 +165,14 @@ export function SelectCountry({ setCountry, setState, setCity, isForFilter, name
                 currentParams.set(`${name}-country`, selectedCountry.name);
                 currentParams.delete(`${name}-state`);
                 currentParams.delete(`${name}-city`);
-                router.replace(`/annonce?${currentParams.toString()}`);
+                router.replace(`/annonce?${currentParams.toString()}`, { scroll: false });
             }
 
         }
     };
 
     return (
-        <Select onValueChange={handleCountrySelect} >
+        <Select onValueChange={handleCountrySelect} value={country.name}>
             <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Select un Pays" />
             </SelectTrigger>
@@ -146,18 +203,13 @@ type SelectStateProps = {
     setState: SetterStateType,
     setCity: SetterCityType,
     isForFilter?: boolean,
-    state: {
-        isoCode: string;
-        countryCode: string;
-        name: string;
-    }
+    state: StateType
 }
 
 export function SelectState({ setState, setCity, state, isForFilter, name }: SelectStateProps) {
     const [searchState, setSearchState] = useState("");
     const router = useRouter();
     const searchParams = useSearchParams()
-
     // const states = State.getAllStates().filter(s => s.countryCode === state.countryCode);
     const states = State.getAllStates().filter(s => s.countryCode === state.countryCode && s.name.toLowerCase().includes(searchState.toLowerCase()));
     const handleCountrySelect = (value: string) => {
@@ -179,7 +231,7 @@ export function SelectState({ setState, setCity, state, isForFilter, name }: Sel
     };
 
     return (
-        <Select onValueChange={handleCountrySelect} >
+        <Select onValueChange={handleCountrySelect} value={state.name}>
             <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Select une Region" />
             </SelectTrigger>
@@ -208,11 +260,7 @@ type SelectCityProps = {
     name: string,
     setCity: SetterCityType,
     isForFilter?: boolean,
-    city: {
-        countryCode: string;
-        stateCode: string;
-        name: string;
-    }
+    city: CityType
 }
 
 export function SelectCity({ setCity, city, isForFilter }: SelectCityProps) {
@@ -221,7 +269,7 @@ export function SelectCity({ setCity, city, isForFilter }: SelectCityProps) {
     const searchParams = useSearchParams()
     const cities = City.getAllCities().filter(c => c.stateCode === city.stateCode && c.countryCode === city.countryCode && c.name.toLowerCase().includes(searchCity.toLowerCase()));
 
-    console.log(city, cities)
+    // console.log(city)
     // const cities = City.getAllCities().filter(c => c.stateCode === city.stateCode);
     // console.log(cities)
     const handleCountrySelect = (value: string) => {
@@ -239,7 +287,7 @@ export function SelectCity({ setCity, city, isForFilter }: SelectCityProps) {
     };
 
     return (
-        <Select onValueChange={handleCountrySelect} >
+        <Select onValueChange={handleCountrySelect} value={city.name}>
             <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Select une Region" />
             </SelectTrigger>

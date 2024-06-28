@@ -45,71 +45,65 @@ export default function SelectPrices() {
     const router = useRouter()
     const searchParams = useSearchParams()
 
+    const updateURLParams = (newSelectedItems: Price[]) => {
+        const currentParams = new URLSearchParams(searchParams.toString());
+        newSelectedItems.forEach(item => {
+            currentParams.set(`${item.id}-price`, item.value);
+        });
+
+        [...items.map(value => value.id), "custom"].forEach(id => {
+            if (!newSelectedItems.find(selected => selected.id === id)) {
+                currentParams.delete(`${id}-price`);
+            }
+        });
+
+        router.replace(`/annonce?${currentParams.toString()}`, { scroll: false });
+    };
+
     const handleCheckboxChange = (item: Price) => {
         const newSelectedItems = selectedItems.find(selected => selected.id === item.id)
             ? selectedItems.filter(selected => selected.id !== item.id)
             : [...selectedItems, item];
 
         setSelectedItems(newSelectedItems);
-        const currentParams = new URLSearchParams(searchParams.toString());
-        if (newSelectedItems.find(selected => selected.id === item.id)) {
-            currentParams.set(`${item.id}-price`, item.value);
-        } else {
-            currentParams.delete(`${item.id}-price`);
-        }
-        router.replace(`/annonce?${currentParams.toString()}`);
+        updateURLParams(newSelectedItems);
     };
 
     const handleCustomCheckboxChange = () => {
-        const isChecked = selectedItems.some(selected => selected.id === "price-custom");
+        const isChecked = selectedItems.some(selected => selected.id === "custom");
 
         let newSelectedItems: Price[];
         if (isChecked) {
-            newSelectedItems = selectedItems.filter(selected => selected.id !== "price-custom")
+            newSelectedItems = selectedItems.filter(selected => selected.id !== "custom")
             setCustomPrice({min: "", max: ""})
         } else {
-            newSelectedItems = [...selectedItems, { id: "price-custom", label: `${customPrice.min}CFA - ${customPrice.max}CFA`, value: `${customPrice.min}-${customPrice.max}` }];
+            newSelectedItems = [...selectedItems, { id: "custom", label: `${customPrice.min}CFA - ${customPrice.max}CFA`, value: `${customPrice.min}-${customPrice.max}` }];
         }
 
         setSelectedItems(newSelectedItems);
-
-        if (customPrice.min != "" || customPrice.max != "") {
-            const currentParams = new URLSearchParams(searchParams.toString());
-            if (isChecked) {
-                currentParams.delete("price-custom");
-            } else {
-                currentParams.set("price-custom", `${customPrice.min}-${customPrice.max}`);
-            }
-            router.replace(`/annonce?${currentParams.toString()}`);
-        }
+        updateURLParams(newSelectedItems);
     };
 
     const throttledCustomPriceChange = throttle(() => {
-        console.log('throttle')
-        const customItem: Price = { id: "price-custom", label: `${customPrice.min}CFA - ${customPrice.max}CFA`, value: `${customPrice.min}-${customPrice.max}` };
+        const customItem: Price = { id: "custom", label: `${customPrice.min}CFA - ${customPrice.max}CFA`, value: `${customPrice.min}-${customPrice.max}` };
         let newSelectedItems: Price[] = [...selectedItems];
-        
-        const isContains = selectedItems.find(selected => selected.id === customItem.id)
 
-        if (isContains && (!customPrice.min && !customPrice.max)) {
-            newSelectedItems = selectedItems.filter(selected => selected.id !== "price-custom")
-        }
+        const customItemIndex = newSelectedItems.findIndex(selected => selected.id === "custom");
 
-        if (!isContains && (customPrice.min || customPrice.max)) {
-            newSelectedItems = [...selectedItems, customItem];
+        if (!customPrice.min && !customPrice.max) {
+            if (customItemIndex !== -1) {
+                newSelectedItems.splice(customItemIndex, 1);
+            }
+        } else {
+            if (customItemIndex !== -1) {
+                newSelectedItems[customItemIndex] = customItem;
+            } else {
+                newSelectedItems.push(customItem);
+            }
         }
 
         setSelectedItems(newSelectedItems);
-        // if (customPrice.min != "" || customPrice.max != "") {
-            console.log("Setting custom price")
-            const currentParams = new URLSearchParams(searchParams.toString());
-            if (!selectedItems.find(selected => selected.id === customItem.id)) {
-                currentParams.delete("custom-price");
-            } else {
-                currentParams.set("custom-price", `${customPrice.min}-${customPrice.max}`);
-            }
-            router.replace(`/annonce?${currentParams.toString()}`);
-        // }
+        updateURLParams(newSelectedItems);
     }, 1000);
 
     useEffect(() => {
@@ -117,6 +111,36 @@ export default function SelectPrices() {
         // Clean-up the throttle function on unmount or when customPrice changes
         return () => throttledCustomPriceChange.cancel();
     }, [customPrice.min, customPrice.max]);
+
+    // Initialize selectedItems based on URL parameters when the component mounts
+    useEffect(() => {
+        const currentParams = new URLSearchParams(searchParams.toString());
+        const initialSelectedItems: Price[] = [];
+    
+        items.forEach(item => {
+            const value = currentParams.get(`${item.id}-price`);
+            if (value) {
+                initialSelectedItems.push({
+                    id: item.id,
+                    label: item.label,
+                    value: item.value
+                });
+            }
+        });
+    
+        const customValue = currentParams.get("custom-price");
+        if (customValue) {
+            const [min, max] = customValue.split("-");
+            setCustomPrice({ min, max });
+            initialSelectedItems.push({
+                id: "custom",
+                label: `${min}CFA - ${max}CFA`,
+                value: customValue
+            });
+        }
+    
+        setSelectedItems(initialSelectedItems);
+    }, [])
 
     return (
         <Card>
@@ -140,7 +164,7 @@ export default function SelectPrices() {
                     <div className="flex items-center space-x-2">
                         <Checkbox
                             id={`price-custom`}
-                            checked={selectedItems.some(selected => selected.id === "price-custom")}
+                            checked={selectedItems.some(selected => selected.id === "custom")}
                             onCheckedChange={handleCustomCheckboxChange}
                         />
                         <label
