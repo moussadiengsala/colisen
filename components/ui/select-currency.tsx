@@ -13,7 +13,7 @@ export function CurrencySelect({ name, label }: CurrencySelectProps) {
     const [currency, setCurrency] = React.useState<string>("USD")
 
     return (
-        <div>
+        <div className="h-full flex-1 flex flex-col justify-between">
             <Label htmlFor={name}>{label}</Label>
             <Select onValueChange={(value) => setCurrency(value)} defaultValue="USD">
                 <SelectTrigger id={name}>

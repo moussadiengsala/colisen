@@ -42,11 +42,13 @@ type CityType = {
 
 type SelectCountryStateCity = {
     name: string,
-    className: string
+    classNameContent?: string
+    classNameCard?: string
     isForFilter?: boolean
+    label: string
 }
 
-function SelectCountryStateCity({ name, className, isForFilter }: SelectCountryStateCity) {
+function SelectCountryStateCity({ name, classNameContent, classNameCard, isForFilter, label }: SelectCountryStateCity) {
     const [country, setCountry] = useState<CountryType>({ isoCode: "", flag: "", name: "" });
     const [state, setState] = useState<StateType>({ isoCode: "", countryCode:"", name: "" });
     const [city, setCity] = useState<CityType>({ stateCode: "", countryCode: "", name: "" });
@@ -90,22 +92,25 @@ function SelectCountryStateCity({ name, className, isForFilter }: SelectCountryS
     }, [name, searchParams]);
 
     return (    
-        <Card>
-            <CardContent className={className}>
-                <div className="grid gap-2">
+        <Card className={classNameCard}>
+            <CardHeader className='p-0'>
+                <CardDescription>{label}</CardDescription>
+            </CardHeader>
+            <CardContent className={classNameContent}>
+                <div className="grid gap-2 flex-1">
                     <Label htmlFor={`${name}-country-name`} >Pays</Label>
                     <SelectCountry country={country} setCountry={setCountry} setState={setState} setCity={setCity} isForFilter={isForFilter} name={name} />
                     <input type="hidden" id={`${name}-country-name`} name={`${name}-country`} value={country.name} />
                     <input type="hidden" id={`${name}-country-flag`} name={`${name}-country-flag`} value={country.flag} />
                 </div>
 
-                <div className="grid gap-2">
+                <div className="grid gap-2 flex-1">
                     <Label htmlFor={`${name}-state`} >Region</Label>
                     <SelectState setState={setState} setCity={setCity} state={state} isForFilter={isForFilter} name={name} />
                     <input type="hidden" id={`${name}-state`} name={`${name}-state`} value={state.name} />
                 </div>
 
-                <div className="grid gap-2">
+                <div className="grid gap-2 flex-1">
                     <Label htmlFor={`${name}-city`} >Ville</Label>
                     <SelectCity setCity={setCity} city={city} isForFilter={isForFilter} name={name} />
                     <input type="hidden" id={`${name}-city`} name={`${name}-city`} value={city.name} />
@@ -173,7 +178,7 @@ export function SelectCountry({ setCountry, setState, setCity, isForFilter, name
 
     return (
         <Select onValueChange={handleCountrySelect} value={country.name}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="">
                 <SelectValue placeholder="Select un Pays" />
             </SelectTrigger>
             <SelectContent>
@@ -232,7 +237,7 @@ export function SelectState({ setState, setCity, state, isForFilter, name }: Sel
 
     return (
         <Select onValueChange={handleCountrySelect} value={state.name}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="">
                 <SelectValue placeholder="Select une Region" />
             </SelectTrigger>
             <SelectContent>
@@ -288,7 +293,7 @@ export function SelectCity({ setCity, city, isForFilter }: SelectCityProps) {
 
     return (
         <Select onValueChange={handleCountrySelect} value={city.name}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="">
                 <SelectValue placeholder="Select une Region" />
             </SelectTrigger>
             <SelectContent>

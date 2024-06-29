@@ -1,31 +1,55 @@
 import { z } from 'zod';
+import { validateLocation } from './validate-location';
+import { isBefore, isAfter, parseISO, startOfDay } from 'date-fns';
+import { validateDate } from './validate-date';
 
 export const AnnonceSchema = z.object({
-    description: z.string().nonempty("Description is required."),
+    description: z.string().max(255, "Description must be 255 characters or less.").optional(),
     origin: z.object({
-        country: z.string().nonempty("Origine country is required."),
-        state: z.string().nonempty("Origine state is required."),
-        city: z.string().nonempty("Origine city is required."),
+        country: z.string(),
+        state: z.string(),
+        city: z.string(),
+    }).superRefine( (value, ctx) => {
+        validateLocation(value, ctx)
     }),
+
     destination: z.object({
-        country: z.string().nonempty("Destination country is required."),
-        state: z.string().nonempty("Destination state is required."),
-        city: z.string().nonempty("Destination city is required."),
+        country: z.string(),
+        state: z.string(),
+        city: z.string(),
+    }).superRefine( (value, ctx) => {
+        validateLocation(value, ctx)
     }),
+
     date: z.object({
-        departure: z.string().nonempty("Departure date is required."),
-        arrival: z.string().nonempty("Arrival date is required."),
-        limit: z.string().nonempty("Limit date is required."),
+        departure: z.string(),
+        arrival: z.string(),
+        limit: z.string(),
+    }).superRefine( (value, ctx) => {
+        validateDate(value, ctx);
     }),
+
     weight: z.object({
         total: z.string().nonempty("Total weight is required."),
-        unit: z.string().nonempty("Weight unit is required."),
+        unit: z.enum(["g", "kg"], { message: "Weight unit must be 'g' or 'kg'." }),
     }),
+
     pricing: z.object({
         price: z.string().nonempty("Price is required."),
-        weightUnit: z.string().nonempty("Weight unit for price is required."),
-        currency: z.string().nonempty("Currency is required."),
+        weightUnit: z.enum(["g", "kg"], { message: "Weight unit must be 'g' or 'kg'." }),
     }),
+}).superRefine((data, ctx) => {
+    if ( data.origin.country &&
+        (data.origin.country === data.destination.country ||
+        data.origin.state === data.destination.state ||
+        data.origin.city === data.destination.city)
+    ) {
+        ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Origine et destination doivent etre differents.",
+            path: ["destination"],
+        });
+    }
 });
 
 export type AnnoncePostData = z.infer<typeof AnnonceSchema>;
@@ -39,7 +63,6 @@ export type AnnonceGetData = {
     total_weight: number;
     total_weight_unit: string;
     price_amount: number;
-    price_currency: string;
     price_unit: string;
     description: string;
     origin_country: string;

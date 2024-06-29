@@ -13,7 +13,7 @@ export function WeightUnitSelect({ name, label }: WeightUnitSelectProps) {
     const [unit, setUnit] = React.useState<string>("kg")
 
     return (
-        <div>
+        <div className="flex-1 flex flex-col justify-between h-full">
             <Label htmlFor={name}>{label}</Label>
             <Select onValueChange={(value) => setUnit(value)} defaultValue="kg">
                 <SelectTrigger id={name}>
