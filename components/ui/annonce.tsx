@@ -121,7 +121,6 @@ export default async function Annonce({annonce} : {annonce: AnnonceGetData}) {
                             <div className='flex items-center gap-2'>
                                 <CircleDollarSign />
                                 <span>{annonce.price_amount}</span>
-                                <span>{annonce.price_currency}</span>
                                 <span>par {annonce.price_unit}</span>
                             </div>
                         </CardContent>
