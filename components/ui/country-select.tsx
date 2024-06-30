@@ -45,7 +45,7 @@ type SelectCountryStateCity = {
     classNameContent?: string
     classNameCard?: string
     isForFilter?: boolean
-    label: string
+    label?: string
 }
 
 function SelectCountryStateCity({ name, classNameContent, classNameCard, isForFilter, label }: SelectCountryStateCity) {
@@ -93,9 +93,11 @@ function SelectCountryStateCity({ name, classNameContent, classNameCard, isForFi
 
     return (    
         <Card className={classNameCard}>
-            <CardHeader className='p-0'>
-                <CardDescription>{label}</CardDescription>
-            </CardHeader>
+            {label && 
+                <CardHeader className='p-0'>
+                    <CardDescription>{label}</CardDescription>
+                </CardHeader>
+            }
             <CardContent className={classNameContent}>
                 <div className="grid gap-2 flex-1">
                     <Label htmlFor={`${name}-country-name`} >Pays</Label>

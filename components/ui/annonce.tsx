@@ -62,7 +62,7 @@ export default async function Annonce({annonce} : {annonce: AnnonceGetData}) {
                                     <div className='flex items-center gap-4'>
                                         <MapPin />
                                         <div className=''>
-                                            <p>{annonce.destination_country} {annonce.destination_state} {annonce.destination_city}</p>
+                                            <p>{annonce.origin_country} {annonce.origin_state} {annonce.origin_city}</p>
                                         </div>
                                     </div>
                                     <div className='flex items-center gap-4'>

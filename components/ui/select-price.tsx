@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Input } from "./input"
 import throttle from "@/lib/throttle"
+import { Label } from "./label"
 
 type Price = {
     id: string,
@@ -144,7 +145,7 @@ export default function SelectPrices() {
 
     return (
         <Card>
-            <CardContent>
+            <CardContent className="p-4">
                 <div className="flex flex-col gap-2">
                     {items.map((item) => (
                         <div className="flex items-center space-x-2" key={item.id}>
@@ -167,23 +168,25 @@ export default function SelectPrices() {
                             checked={selectedItems.some(selected => selected.id === "custom")}
                             onCheckedChange={handleCustomCheckboxChange}
                         />
-                        <label
+                        <Label
                             htmlFor={`price-custom`}
-                            className=" flex text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            className="w-full flex gap-2 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                             >
                             <Input 
                                 type="number"
                                 placeholder="Min"
                                 value={customPrice.min}
                                 onChange={(e) => setCustomPrice({ ...customPrice, min: e.target.value })}
+                                className="w-28 flex-1 h-7"
                             />
                             <Input 
                                 type="number"
                                 placeholder="Max"
                                 value={customPrice.max}
                                 onChange={(e) => setCustomPrice({ ...customPrice, max: e.target.value })}
+                                className="w-28 flex-1 h-7"
                             />
-                        </label>
+                        </Label>
                     </div>
                 </div>
             </CardContent>
