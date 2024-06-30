@@ -28,12 +28,6 @@ export default async function Annonce({annonce} : {annonce: AnnonceGetData}) {
     }
     const user = data[0]
 
-    // { annonce.description &&
-    //     <div>
-    //         <p>{annonce.description}</p>
-    //     </div>
-    // }
-// className='    desktop:max-w-full desktop:w-full desktop:flex-row desktop:space-y-0 desktop:space-x-5 desktop:p-8'
     return (
         <Card className='bg-custom-light-98 rounded-md w-full max-w-lg tablet:max-w-fit desktop:max-w-full desktop:flex-1'>
             <CardHeader className=''>

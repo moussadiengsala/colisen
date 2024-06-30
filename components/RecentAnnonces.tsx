@@ -27,8 +27,6 @@ export default async function RecentAnnonces() {
                         {data.map(annonce => (
                             <>
                                 <Annonce annonce={annonce} key={`annonce-${annonce.id}`}/>
-                                <Annonce annonce={annonce} key={`annonce1-${annonce.id}`}/>
-                                <Annonce annonce={annonce} key={`annonce2-${annonce.id}`}/>
                             </>
                         ))}
                     </div>
