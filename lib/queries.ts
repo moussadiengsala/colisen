@@ -10,7 +10,7 @@ export default async function getData(searchParams: { [key: string]: string | st
     const supabase = createClient();
     let query = supabase.from("annonce").select("*");
 
-    if (searchParams) {
+    if (searchParams && Object.keys(searchParams).length > 0) {
         Object.entries(searchParams).forEach(([key, value]) => {
             query = applyFilter(query, key, value as string);
         });

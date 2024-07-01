@@ -9,6 +9,7 @@ import Filter from "@/components/ui/filter";
 import { Input } from "@/components/ui/input";
 import Search from "@/components/ui/search";
 import getData from "@/lib/queries";
+import PaginationAnnounce from "@/components/ui/announce-pagination";
 
 export default async function ProtectedPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   const supabase = createClient();
@@ -30,6 +31,7 @@ export default async function ProtectedPage({ searchParams }: { searchParams: { 
                       <Annonce annonce={annonce} key={`annonce-${annonce.id}`}/>
                     </>
                 ))}
+                <PaginationAnnounce />
               </div>
             </div>
         </div>

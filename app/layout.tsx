@@ -5,6 +5,8 @@ import "./globals.css";
 import { Inter as FontSans } from "next/font/google"
 import { cn } from "@/lib/utils"
 import Nav from "@/components/Nav";
+import ReactQueryClientProvider from "@/components/ReactQueryClientProvider";
+import Footer from "@/components/ui/Footer";
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -26,27 +28,16 @@ export default function RootLayout({
     children: React.ReactNode;
   }) {
   return (
-    // <html lang="en" className={GeistSans.className}>
-    <html lang="en" suppressHydrationWarning >
-      <body  className={cn( "min-h-screen bg-custom-light-90 font-sans antialiased", fontSans.variable)}>
-        <Nav />
-        <main className="flex flex-col items-center">
-          {children}
-        </main>
-        <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
-          <p>
-            Powered by{" "}
-            <a
-              href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-              target="_blank"
-              className="font-bold hover:underline"
-              rel="noreferrer"
-            >
-              Supabase
-            </a>
-          </p>
-        </footer>
-      </body>
-    </html>
+    <ReactQueryClientProvider>
+      <html lang="en" suppressHydrationWarning >
+        <body  className={cn( "min-h-screen bg-custom-light-90 font-sans antialiased", fontSans.variable)}>
+          <Nav />
+          <main className="flex flex-col items-center">
+            {children}
+          </main>
+          <Footer />
+        </body>
+      </html>
+    </ReactQueryClientProvider>
   );
 }
