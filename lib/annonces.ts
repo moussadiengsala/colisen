@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { validateLocation } from './validate-location';
 import { isBefore, isAfter, parseISO, startOfDay } from 'date-fns';
 import { validateDate } from './validate-date';
+import { Database } from '@/types/supabase';
 
 export const AnnonceSchema = z.object({
     description: z.string().max(255, "Description must be 255 characters or less.").optional(),
@@ -55,21 +56,6 @@ export const AnnonceSchema = z.object({
 export type AnnoncePostData = z.infer<typeof AnnonceSchema>;
 
 export type AnnonceGetData = {
-    id: number;
-    user_id: string;
-    created_at: string;
-    departure_date: string;
-    arrival_date: string;
-    total_weight: number;
-    total_weight_unit: string;
-    price_amount: number;
-    price_unit: string;
-    description: string;
-    origin_country: string;
-    origin_state: string;
-    origin_city: string;
-    destination_country: string;
-    destination_state: string;
-    destination_city: string;
-    limit_depot: string;
-};
+    profile: Database["public"]["Tables"]["profiles"]["Row"],
+    announce: Database["public"]["Tables"]["annonce"]["Row"]
+}

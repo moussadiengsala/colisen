@@ -1,14 +1,11 @@
-import { createClient } from "@/utils/supabase/server";
-import { AnnonceGetData } from "./annonces";
-import { PostgrestError } from "@supabase/supabase-js";
-import { read } from "fs";
+import { SupabaseClientType } from "@/utils/supabase/client";
 
-export default async function getData(searchParams: { [key: string]: string | string[] | undefined } ): Promise<{
-    error: PostgrestError | null,
-    data: AnnonceGetData[] | null
-}> {
-    const supabase = createClient();
-    let query = supabase.from("annonce").select("*");
+export default async function getFilteredData(
+    searchParams: { [key: string]: string | string[] | undefined }, 
+    client: SupabaseClientType
+) {
+
+    let query = client.from("annonce").select("*");
 
     if (searchParams && Object.keys(searchParams).length > 0) {
         Object.entries(searchParams).forEach(([key, value]) => {
@@ -16,9 +13,9 @@ export default async function getData(searchParams: { [key: string]: string | st
         });
     }
 
-    const { data, error } = await query.order("created_at", { ascending: false }).limit(5).returns<AnnonceGetData[]>();
+    const { data, error } = await query.order("created_at", { ascending: false }).limit(5);
 
-    return { data: data, error: error }
+    return { data: data, error: error };
 }
 
 function applyFilter(query: any, key: string, value: string) {
@@ -46,9 +43,9 @@ function applyFilter(query: any, key: string, value: string) {
         Object.entries(keyActions).forEach((action) => {
             if (action[0] === key) {
                 query = action[1]();
-                return query
+                return query;
             }
-        })
+        });
     }
 
     return query;

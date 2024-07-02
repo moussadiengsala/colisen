@@ -1,19 +1,18 @@
-import DeployButton from "@/components/DeployButton";
-import AuthButton from "@/components/AuthButton";
-import { createClient } from "@/utils/supabase/server";
-import FetchDataSteps from "@/components/tutorial/FetchDataSteps";
-import { redirect } from "next/navigation";
-import { AnnonceGetData } from "@/lib/annonces";
-import Annonce from "@/components/ui/annonce";
+"use client"
+import Annonce, { AnnonceSkeleton } from "@/components/ui/annonce";
 import Filter from "@/components/ui/filter";
 import { Input } from "@/components/ui/input";
 import Search from "@/components/ui/search";
-import getData from "@/lib/queries";
 import PaginationAnnounce from "@/components/ui/announce-pagination";
+import useFilterAnnounce from "@/hooks/use-filter-announce";
 
-export default async function ProtectedPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
-  const supabase = createClient();
-  const { data, error } = await getData(searchParams)
+export default function ProtectedPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+  const {
+    data,
+    isLoading,
+    isError
+  } = useFilterAnnounce(searchParams)
+
   return (
     <div className="flex-1 w-full flex justify-center items-center">
       <div className="flex flex-col items-center w-full max-w-7xl p-3 text-sm space-y-10 desktop:justify-around relative">
@@ -26,11 +25,25 @@ export default async function ProtectedPage({ searchParams }: { searchParams: { 
                 </div>
               </div>
               <div className="flex-1 flex flex-col gap-4">
-                {data?.map(annonce => (
-                    <>
-                      <Annonce annonce={annonce} key={`annonce-${annonce.id}`}/>
-                    </>
-                ))}
+                {isLoading ? (
+                  <div className='flex flex-col gap-8 w-full max-w-lg tablet:max-w-fit desktop:max-w-full'>
+                      <div className="w-full flex flex-col justify-center items-center desktop:flex-row gap-4">
+                          {Array.from({length: 3}, (_, i) => i).map( i => (
+                              <AnnonceSkeleton key={`annonce-skelton-filter-${i}`} />
+                          ))}
+                      </div>
+                  </div>
+                ) : isError || !data || data.length == 0 ? (
+                  <div className="w-full flex flex-col justify-center items-center desktop:flex-row gap-4">
+                      <div className='w-full p-6 text-center text-custom-dark-60 capitalize text-lg'>
+                          no annonce yet!
+                      </div>
+                  </div>
+                ) : (
+                  data.map(annonce => (
+                        <Annonce annonce={annonce} key={`annonce-${annonce.announce.id}`}/>
+                  ))
+                )}
                 <PaginationAnnounce />
               </div>
             </div>
@@ -38,4 +51,3 @@ export default async function ProtectedPage({ searchParams }: { searchParams: { 
     </div>
   );
 }
-

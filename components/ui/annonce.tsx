@@ -14,36 +14,26 @@ import { Separator } from './separator'
 import { Button } from './button'
 import { AnnonceGetData } from '@/lib/annonces'
 import DynamicAvatarProfile from './DynamicAvatarProfile'
-import { createClient } from '@/utils/supabase/server'
-import { UserGetData } from '@/lib/user'
 import { format, parseISO } from 'date-fns'
+import { Skeleton } from './skeleton'
 
-export default async function Annonce({annonce} : {annonce: AnnonceGetData}) {
-    const supabase = createClient()
-
-    const { data, error } = await supabase.from("profiles")
-        .select("*").eq("id", annonce.user_id).returns<UserGetData[]>()
-    if (error) {
-        return
-    }
-    const user = data[0]
-
+export default function Annonce({annonce} : {annonce: AnnonceGetData }) {
     return (
         <Card className='bg-custom-light-98 rounded-md w-full max-w-lg tablet:max-w-fit desktop:max-w-full desktop:flex-1'>
             <CardHeader className=''>
                 <div className='w-full flex items-center justify-between'>
                     <div  className='flex items-center gap-2'>
                         <Avatar>
-                            <DynamicAvatarProfile userid={user.id} /> 
+                            <DynamicAvatarProfile avatar_url={annonce.profile.avatar_url} /> 
                         </Avatar>
                         <div className='flex flex-col'>
-                            <span>{user.first_name}</span>
-                            <span>{user.last_name}</span>
+                            <span>{annonce.profile.first_name}</span>
+                            <span>{annonce.profile.last_name}</span>
                         </div>
                     </div>
                     <div className='flex items-center gap-2'>
                         <PhoneCallIcon className='w-5 h-5'/>
-                        <span>+{user.telephone}</span>
+                        <span>+{annonce.profile.telephone}</span>
                     </div>
                 </div>
             </CardHeader>
@@ -62,12 +52,12 @@ export default async function Annonce({annonce} : {annonce: AnnonceGetData}) {
                                     <div className='flex items-center gap-4'>
                                         <MapPin />
                                         <div className=''>
-                                            <p>{annonce.origin_country} {annonce.origin_state} {annonce.origin_city}</p>
+                                            <p>{annonce.announce.origin_country} {annonce.announce.origin_state} {annonce.announce.origin_city}</p>
                                         </div>
                                     </div>
                                     <div className='flex items-center gap-4'>
                                         <CalendarDays />
-                                        <span>{format(parseISO(annonce.departure_date), 'EEE MMM dd yyyy')}</span>
+                                        <span>{format(parseISO(annonce.announce.departure_date as string), 'EEE MMM dd yyyy')}</span>
                                     </div>
                                 </div>
                             </CardContent>
@@ -84,12 +74,12 @@ export default async function Annonce({annonce} : {annonce: AnnonceGetData}) {
                                     <div className='flex items-center gap-4'>
                                         <MapPin />
                                         <div className=''>
-                                            <p>{annonce.destination_country} {annonce.destination_state} {annonce.destination_city}</p>
+                                            <p>{annonce.announce.destination_country} {annonce.announce.destination_state} {annonce.announce.destination_city}</p>
                                         </div>
                                     </div>
                                     <div className='flex items-center gap-4'>
                                         <CalendarDays />
-                                        <span>{format(parseISO(annonce.departure_date), 'EEE MMM dd yyyy')}</span>
+                                        <span>{format(parseISO(annonce.announce.departure_date as string), 'EEE MMM dd yyyy')}</span>
                                     </div>
                                 </div>
                             </CardContent>
@@ -99,7 +89,7 @@ export default async function Annonce({annonce} : {annonce: AnnonceGetData}) {
                         <CircleAlert />
                         <div className="flex justify-center gap-2">
                             <span>Limit depot</span>
-                            <span>{format(parseISO(annonce.limit_depot), 'EEE MMM dd yyyy')}</span>
+                            <span>{format(parseISO(annonce.announce.limit_depot as string), 'EEE MMM dd yyyy')}</span>
                         </div>
                     </Badge>
                     <Card className=''>
@@ -109,18 +99,60 @@ export default async function Annonce({annonce} : {annonce: AnnonceGetData}) {
                         <CardContent className='space-y-3'>
                             <div className='flex items-center gap-2'>
                                 <Scale />
-                                <span>{annonce.total_weight}</span>
-                                <span>{annonce.total_weight_unit}</span>
+                                <span>{annonce.announce.total_weight}</span>
+                                <span>{annonce.announce.total_weight_unit}</span>
                             </div>
                             <div className='flex items-center gap-2'>
                                 <CircleDollarSign />
-                                <span>{annonce.price_amount}</span>
-                                <span>par {annonce.price_unit}</span>
+                                <span>{annonce.announce.price_amount}</span>
+                                <span>par {annonce.announce.price_unit}</span>
                             </div>
                         </CardContent>
                     </Card>
                 
                 <Button type='submit' className='bg-custom-sky-50 hover:bg-custom-sky-60 w-full'>Consulter</Button>
+            </CardContent>
+        </Card>
+    )
+}
+
+
+export function AnnonceSkeleton() {
+    return (
+        <Card className='bg-custom-light-98 rounded-md w-full max-w-lg tablet:max-w-fit desktop:max-w-full desktop:flex-1'>
+            <CardHeader className=''>
+                <div className='w-full flex items-center justify-between'>
+                    <div  className='flex items-center gap-2'>
+                        <Skeleton className="w-10 h-10 rounded-full" />
+                        <div className='flex flex-col gap-1'>
+                            <Skeleton className='w-20 h-4' />
+                            <Skeleton className='w-20 h-4' />
+                        </div>
+                    </div>
+                    <Skeleton className='w-24 h-4' />
+                </div>
+            </CardHeader>
+            <Separator />
+            <CardContent className='space-y-8'>
+                <div className='flex flex-col space-y-4'>
+                    <div className='flex flex-col gap-1'>
+                        <Skeleton className='w-full h-4' />
+                        <Skeleton className='w-full h-4' />
+                    </div>
+                    <div className='flex flex-col gap-1'>
+                        <Skeleton className='w-full h-4' />
+                        <Skeleton className='w-full h-4' />
+                    </div>
+                </div>
+                <Skeleton className='w-full h-4' />
+                <div className='space-y-2'>
+                    <Skeleton className='w-full h-4' />
+                    <div className='ml-4 space-y-2'>
+                        <Skeleton className='w-full h-4' />
+                        <Skeleton className='w-full h-4' />
+                    </div>
+                </div>
+                <Skeleton className='w-full h-12' />
             </CardContent>
         </Card>
     )

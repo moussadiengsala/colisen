@@ -11,23 +11,29 @@ import { SubmitButton } from '@/components/ui/submit-button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { redirect } from 'next/navigation'
-import { createClient } from '@/utils/supabase/client'
 import { Image } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import useAvatarProfile from '@/lib/get-user-profile'
+import useUserQuery from '@/hooks/use-user'
+import useSupabase from '@/hooks/use-supabase'
 
 export default function AvatarProfile({ searchParams }: { searchParams: { userid: string} }) {
-    if (!searchParams?.userid) {
+    const client = useSupabase()
+    const {
+        data,
+        isLoading,
+        isError
+    } = useUserQuery()
+
+    if (isError && !data) {
         return redirect("signin");
     }
 
     const size = 200
-    const [avatarUrl, setAvatarUrl] = useAvatarProfile(searchParams?.userid)
+    const [avatarUrl, setAvatarUrl] = useState(data?.profile.avatar_url)
     const [url, setUrl] = useState<string|null>(null)
     const [uploading, setUploading] = useState(false)
     
     async function uploadAvatar(event : ChangeEvent<HTMLInputElement>) {
-        const supabase = createClient();
         try {
 
             if (!event.target.files || event.target.files.length === 0) {
@@ -39,7 +45,7 @@ export default function AvatarProfile({ searchParams }: { searchParams: { userid
             const fileName = `${Math.random()}.${fileExt}`
             const filePath = `${fileName}`
 
-            const { data, error: uploadError } = await supabase.storage.from('avatars').upload(filePath, file)
+            const { data, error: uploadError } = await client.storage.from('avatars').upload(filePath, file)
 
             if (uploadError) {
                 throw uploadError
@@ -54,7 +60,6 @@ export default function AvatarProfile({ searchParams }: { searchParams: { userid
     }
 
     async function updateProfile() {
-        const supabase = createClient();
 
         setUploading(true)
 
@@ -63,7 +68,7 @@ export default function AvatarProfile({ searchParams }: { searchParams: { userid
             avatar_url: url,
         }
 
-        const { error } = await supabase.from('profiles').upsert(updates)
+        const { error } = await client.from('profiles').upsert(updates)
 
         if (error) {
             alert(error.message)
