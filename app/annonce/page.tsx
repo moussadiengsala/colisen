@@ -5,13 +5,15 @@ import { Input } from "@/components/ui/input";
 import Search from "@/components/ui/search";
 import PaginationAnnounce from "@/components/ui/announce-pagination";
 import useFilterAnnounce from "@/hooks/use-filter-announce";
+import { useEffect } from "react";
 
 export default function ProtectedPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+  const limit = 2
   const {
     data,
-    isLoading,
+    isLoading,  
     isError
-  } = useFilterAnnounce(searchParams)
+  } = useFilterAnnounce(searchParams, limit)
 
   return (
     <div className="flex-1 w-full flex justify-center items-center">
@@ -27,24 +29,26 @@ export default function ProtectedPage({ searchParams }: { searchParams: { [key: 
               <div className="flex-1 flex flex-col gap-4">
                 {isLoading ? (
                   <div className='flex flex-col gap-8 w-full max-w-lg tablet:max-w-fit desktop:max-w-full'>
-                      <div className="w-full flex flex-col justify-center items-center desktop:flex-row gap-4">
+                      <div className="w-full flex flex-col justify-center items-center gap-4">
                           {Array.from({length: 3}, (_, i) => i).map( i => (
                               <AnnonceSkeleton key={`annonce-skelton-filter-${i}`} />
                           ))}
                       </div>
                   </div>
-                ) : isError || !data || data.length == 0 ? (
+                ) : isError || !data || !data.announces ? (
                   <div className="w-full flex flex-col justify-center items-center desktop:flex-row gap-4">
                       <div className='w-full p-6 text-center text-custom-dark-60 capitalize text-lg'>
                           no annonce yet!
                       </div>
                   </div>
                 ) : (
-                  data.map(annonce => (
+                  <>
+                    {data.announces.map(annonce => (
                         <Annonce annonce={annonce} key={`annonce-${annonce.announce.id}`}/>
-                  ))
+                    ))}
+                    <PaginationAnnounce total={data?.total} limit={limit} />
+                  </>
                 )}
-                <PaginationAnnounce />
               </div>
             </div>
         </div>

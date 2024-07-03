@@ -1,5 +1,5 @@
 "use client"
-import React, { Fragment } from 'react'
+import React, { Fragment, useCallback, useEffect, useState } from 'react'
 import {
     Card,
     CardContent,
@@ -14,28 +14,74 @@ import { clsx } from "clsx";
 import { Popover, Transition } from "@headlessui/react"
 import { Button } from './button'
 import Filter from './filter'
-
-
+import { useRouter, useSearchParams } from 'next/navigation'
+import throttle from '@/lib/throttle'
 
 export function QuickSearch() {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const origin = formData.get('origin') as string;
+        const destination = formData.get('destination') as string;
+        const currentParams = new URLSearchParams(Array.from(searchParams.entries()));
+        if (origin) {
+            currentParams.set('origin', origin);
+        }
+        if (destination) {
+            currentParams.set('destination', destination);
+        } 
+
+        router.replace(`/annonce?${currentParams}`)
+    }
+
     return (
         <Card className='bg-custom-light-98 rounded-md space-y-5 p-4 w-full max-w-lg desktop:max-w-full desktop:w-full desktop:flex-row desktop:space-y-0 desktop:space-x-5 desktop:p-8'>
             <CardHeader>
                 <CardDescription>Trouver des command en cour</CardDescription>
             </CardHeader>
             <CardContent className='p-0'>
-                <div className='flex flex-col gap-4 desktop:flex-row'>
-                    <Input type='text' placeholder='Oringine...'/>
-                    <Input type='text' placeholder='Destination...'/>
-                    <Input type='number' placeholder='Weight'/>
+                <form method='get' onSubmit={handleSubmit} className='flex flex-col gap-4 desktop:flex-row'>
+                    <Input type='text' placeholder='Oringine...' name="origin"/>
+                    <Input type='text' placeholder='Destination...' name="destination" />
                     <Button type='submit' className='bg-custom-sky-50 hover:bg-custom-sky-60'>Chercher</Button>
-                </div>
+                </form>
             </CardContent>
         </Card>
     )
 }
 
 export default function Search() {
+    const [input, setInput] = useState<string>("")
+
+    const router = useRouter();
+    const searchParams = useSearchParams();
+
+    const handleChange = useCallback(throttle((value: string) => {
+        const currentParams = new URLSearchParams(Array.from(searchParams.entries()));
+        if (value !== "") {
+            currentParams.set('q', value);
+        } else {
+            currentParams.delete('q');
+        }
+        router.replace(`/annonce?${currentParams.toString()}`, {scroll: false});
+    }, 500), [searchParams, router]);
+
+    const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setInput(value);
+        handleChange(value);
+    };
+
+    useEffect(() => {
+        const defaultValue = searchParams.get(`q`);
+        if (defaultValue) {
+            setInput(defaultValue)
+        }
+    }, [])
+
     return (
         <Card className='w-full bg-transparent mb-4'>
             <CardContent className='p-0'>
@@ -43,7 +89,9 @@ export default function Search() {
                     <Input 
                         type="text"
                         placeholder="shearch..."
+                        onChange={onInputChange}
                         className=""
+                        value={input}
                     />
 
                     <Popover className="flex justify-center items-center desktop:hidden">

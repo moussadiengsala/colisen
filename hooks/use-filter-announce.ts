@@ -4,15 +4,15 @@ import { getRecentAnnounce } from "@/data/queries/get-recent-announce";
 import { getUserById } from "@/data/queries/get-user";
 import getFilteredData from "@/data/queries/filter-announce";
 
-function useFilterAnnounce(searchParams: { [key: string]: string | string[] | undefined }) {
+function useFilterAnnounce(searchParams: { [key: string]: string | string[] | undefined }, limit: number) {
     const client = useSupabase();
-    const queryKey = ['announce-filter', Object.keys(searchParams || {}).join(',')];
+    const queryKey = ['announce-filter', Object.values(searchParams || {}).join(',')];
 
     const queryFn = async () => {
         try {
-            const { data: announces, error } = await getFilteredData(searchParams, client);
+            const { data: announces, error, total } = await getFilteredData(searchParams, client, limit);
             if (error) throw new Error(error.message);
-            if (!announces) return []
+            if (!announces) return {}
 
             const announcesWithProfiles = await Promise.all(
                 announces.map(async (announce) => {
@@ -22,7 +22,10 @@ function useFilterAnnounce(searchParams: { [key: string]: string | string[] | un
                 })
             );
 
-            return announcesWithProfiles;
+            return {
+                announces: announcesWithProfiles,
+                total
+            };
         } catch (error) {
             throw error;
         }

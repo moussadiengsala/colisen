@@ -57,5 +57,5 @@ export type AnnoncePostData = z.infer<typeof AnnonceSchema>;
 
 export type AnnonceGetData = {
     profile: Database["public"]["Tables"]["profiles"]["Row"],
-    announce: Database["public"]["Tables"]["annonce"]["Row"]
+    announce: Database["public"]["Tables"]["annonce"]["Row"],
 }

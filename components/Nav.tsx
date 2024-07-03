@@ -10,8 +10,6 @@ import { Skeleton } from './ui/skeleton'
 
 const navigtions: navigation[] = [
     {label: "annonces", href: "/annonce"},
-    {label: "suivi des colis", href: "#"},
-    {label: "contact", href: "#"},
 ]
 
 export default function Nav() {

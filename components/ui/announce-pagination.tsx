@@ -11,11 +11,12 @@ import {
     PaginationPrevious,
 } from "@/components/ui/pagination"
 
-export default function PaginationAnnounce() {
+export default function PaginationAnnounce({ total, limit = 5 }: { total: number, limit?: number }) {
+    if (total < limit)  return;
     const router = useRouter();
     const searchParams = useSearchParams();
     const currentPage = parseInt(searchParams.get('page') || '1', 10);
-    const totalPages = 10; // Replace with actual total pages from your data
+    const totalPages = Math.ceil(total / limit);
 
     const handlePageChange = (page: number) => {
         const currentParams = new URLSearchParams(searchParams.toString());

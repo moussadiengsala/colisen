@@ -23,8 +23,8 @@ type DatePickerWithRangeProps = {
 
 export function DatePickerWithRange({ className, name }: DatePickerWithRangeProps) {
     const [date, setDate] = React.useState<DateRange | undefined>({
-        from: new Date(2022, 0, 20),
-        to: addDays(new Date(2022, 0, 20), 20),
+        from: new Date(Date.now()),
+        to: addDays(new Date(Date.now()), 30),
     })
 
     const router = useRouter();
@@ -50,7 +50,7 @@ export function DatePickerWithRange({ className, name }: DatePickerWithRangeProp
             const toDate = parseISO(toParam);
             setDate({ from: fromDate, to: toDate });
         }
-    }, [name, searchParams]);
+    }, []);
 
     return (
         <div className={cn("grid gap-2", className)}>
