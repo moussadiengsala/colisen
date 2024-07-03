@@ -119,7 +119,7 @@ export default function Annonce({annonce} : {annonce: AnnonceGetData }) {
 
 export function AnnonceSkeleton() {
     return (
-        <Card className='bg-custom-light-98 rounded-md w-full max-w-lg tablet:max-w-fit desktop:max-w-full desktop:flex-1'>
+        <Card className='bg-custom-light-98 rounded-md w-[90vw] tablet:w-full desktop:max-w-full desktop:flex-1'>
             <CardHeader className=''>
                 <div className='w-full flex items-center justify-between'>
                     <div  className='flex items-center gap-2'>

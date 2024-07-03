@@ -16,7 +16,7 @@ export default function RecentAnnonces() {
     return (
         <div className='w-full flex justify-center items-center'>
             {isLoading ? (
-                <div className='flex flex-col gap-8 w-full max-w-lg tablet:max-w-fit desktop:max-w-full'>
+                <div className='flex flex-col gap-8 w-full max-w-lg tablet:w-3/4 desktop:w-full desktop:max-w-full'>
                     <div className="w-full flex flex-col justify-center items-center desktop:flex-row gap-4">
                         {Array.from({length: 3}, (_, i) => i).map( i => (
                             <AnnonceSkeleton key={`annonce-skelton-${i}`} />
