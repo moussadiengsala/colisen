@@ -2,7 +2,7 @@
 import Annonce, { AnnonceSkeleton } from "@/components/ui/annonce";
 import Filter from "@/components/ui/filter";
 import { Input } from "@/components/ui/input";
-// import Search from "@/components/ui/search";
+import Search from "@/components/ui/search";
 import PaginationAnnounce from "@/components/ui/announce-pagination";
 import useFilterAnnounce from "@/hooks/use-filter-announce";
 import { useEffect } from "react";
@@ -21,7 +21,7 @@ export default function ProtectedPage({ searchParams }: { searchParams: { [key: 
             
             <div className="flex flex-col w-fit justify-center items-centerl h-full gap-4 tablet:w-3/4 desktop:flex-row desktop:w-full">
               <div className="">
-                {/* <Search /> */}
+                <Search />
                 <div className="hidden desktop:block">
                   <Filter />
                 </div>
