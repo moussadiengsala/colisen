@@ -21,7 +21,7 @@ export default function ProtectedPage({ searchParams }: { searchParams: { [key: 
             
             <div className="flex flex-col w-fit justify-center items-centerl h-full gap-4 tablet:w-3/4 desktop:flex-row desktop:w-full">
               <div className="">
-                <Search />
+                {/* <Search /> */}
                 <div className="hidden desktop:block">
                   <Filter />
                 </div>
