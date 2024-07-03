@@ -1,5 +1,5 @@
 "use client"
-import React, { Fragment, useCallback, useEffect, useState } from 'react'
+import React, { Fragment, Suspense, useCallback, useEffect, useState } from 'react'
 import {
     Card,
     CardContent,
@@ -33,23 +33,24 @@ export function QuickSearch() {
         if (destination) {
             currentParams.set('destination', destination);
         } 
-
         router.push(`/annonce?${currentParams}`)
     }
 
     return (
-        <Card className='bg-custom-light-98 rounded-md space-y-5 p-4 w-full max-w-lg desktop:max-w-full desktop:w-full desktop:flex-row desktop:space-y-0 desktop:space-x-5 desktop:p-8'>
+        <Suspense fallback={<div>Loading...</div>}>
+            <Card className='bg-custom-light-98 rounded-md space-y-5 p-4 w-full max-w-lg desktop:max-w-full desktop:w-full desktop:flex-row desktop:space-y-0 desktop:space-x-5 desktop:p-8'>
             <CardHeader>
                 <CardDescription>Trouver des command en cour</CardDescription>
             </CardHeader>
             <CardContent className='p-0'>
                 <form method='get' onSubmit={handleSubmit} className='flex flex-col gap-4 desktop:flex-row'>
-                    <Input type='text' placeholder='Oringine...' name="origin"/>
-                    <Input type='text' placeholder='Destination...' name="destination" />
-                    <Button type='submit' className='bg-custom-sky-50 hover:bg-custom-sky-60'>Chercher</Button>
+                <Input type='text' placeholder='Oringine...' name="origin"/>
+                <Input type='text' placeholder='Destination...' name="destination" />
+                <Button type='submit' className='bg-custom-sky-50 hover:bg-custom-sky-60'>Chercher</Button>
                 </form>
             </CardContent>
-        </Card>
+            </Card>
+      </Suspense>
     )
 }
 
