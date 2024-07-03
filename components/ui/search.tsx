@@ -1,5 +1,5 @@
 "use client"
-import React, { Fragment, Suspense, useCallback, useEffect, useState } from 'react'
+import React, { Fragment, useCallback, useEffect, useState } from 'react'
 import {
     Card,
     CardContent,
@@ -19,14 +19,13 @@ import throttle from '@/lib/throttle'
 
 export function QuickSearch() {
     const router = useRouter();
-    const searchParams = useSearchParams();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const origin = formData.get('origin') as string;
         const destination = formData.get('destination') as string;
-        const currentParams = new URLSearchParams(Array.from(searchParams.entries()));
+        const currentParams = new URLSearchParams()
         if (origin) {
             currentParams.set('origin', origin);
         }
@@ -37,20 +36,18 @@ export function QuickSearch() {
     }
 
     return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <Card className='bg-custom-light-98 rounded-md space-y-5 p-4 w-full max-w-lg desktop:max-w-full desktop:w-full desktop:flex-row desktop:space-y-0 desktop:space-x-5 desktop:p-8'>
+        <Card className='bg-custom-light-98 rounded-md space-y-5 p-4 w-full max-w-lg desktop:max-w-full desktop:w-full desktop:flex-row desktop:space-y-0 desktop:space-x-5 desktop:p-8'>
             <CardHeader>
                 <CardDescription>Trouver des command en cour</CardDescription>
             </CardHeader>
             <CardContent className='p-0'>
                 <form method='get' onSubmit={handleSubmit} className='flex flex-col gap-4 desktop:flex-row'>
-                <Input type='text' placeholder='Oringine...' name="origin"/>
-                <Input type='text' placeholder='Destination...' name="destination" />
-                <Button type='submit' className='bg-custom-sky-50 hover:bg-custom-sky-60'>Chercher</Button>
+                    <Input type='text' placeholder='Oringine...' name="origin"/>
+                    <Input type='text' placeholder='Destination...' name="destination" />
+                    <Button type='submit' className='bg-custom-sky-50 hover:bg-custom-sky-60'>Chercher</Button>
                 </form>
             </CardContent>
-            </Card>
-      </Suspense>
+        </Card>
     )
 }
 
