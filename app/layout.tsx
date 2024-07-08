@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <ReactQueryClientProvider>
       <html lang="en" suppressHydrationWarning >
-        <body  className={cn( "min-h-screen bg-custom-light-90 font-sans antialiased", fontSans.variable)}>
+        <body  className={cn( "min-h-screen font-sans antialiased", fontSans.variable)}>
           <Nav />
           <main className="flex flex-col items-center">
             {children}

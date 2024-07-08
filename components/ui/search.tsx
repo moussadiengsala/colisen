@@ -16,6 +16,7 @@ import { Button } from './button'
 import Filter from './filter'
 import { useRouter, useSearchParams } from 'next/navigation'
 import throttle from '@/lib/throttle'
+import { Label } from './label'
 
 export function QuickSearch() {
     const router = useRouter();
@@ -41,10 +42,16 @@ export function QuickSearch() {
                 <CardDescription>Trouver des command en cour</CardDescription>
             </CardHeader>
             <CardContent className='p-0'>
-                <form method='get' onSubmit={handleSubmit} className='flex flex-col gap-4 desktop:flex-row'>
-                    <Input type='text' placeholder='Oringine...' name="origin"/>
-                    <Input type='text' placeholder='Destination...' name="destination" />
-                    <Button type='submit' className='bg-custom-sky-50 hover:bg-custom-sky-60'>Chercher</Button>
+                <form method='get' onSubmit={handleSubmit} className='flex flex-col desktop:items-end gap-4 desktop:flex-row'>
+                    <div className='flex-1 space-y-2'>
+                        <Label htmlFor="search_origine">Origine</Label>
+                        <Input type='text' id="search_origine" placeholder='Oringine...' name="origin"/>
+                    </div>
+                    <div className='flex-1 space-y-2'>
+                        <Label htmlFor="search_destination">Destination</Label>
+                        <Input type='text' id="search_destination" placeholder='Destination...' name="destination" />
+                    </div>
+                    <Button type='submit' className='bg-custom-dark-10 hover:bg-custom-dark-40 font-semibold'>Chercher</Button>
                 </form>
             </CardContent>
         </Card>

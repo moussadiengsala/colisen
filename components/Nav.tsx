@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { navigation } from '@/data'
 import useUserQuery from '@/hooks/use-user'
 import { Skeleton } from './ui/skeleton'
+import { PackageOpenIcon } from 'lucide-react'
 
 const navigtions: navigation[] = [
     {label: "annonces", href: "/annonce"},
@@ -25,8 +26,11 @@ export default function Nav() {
                 {isLoading ? 
                     (<Skeleton className="h-4 w-[100px]" />) :
                     (
-                        <Button asChild className='bg-transparent text-custom-dark-10 hover:bg-transparent font-extrabold text-xl desktop:text-2xl'>
-                            <Link href="/">Colisen</Link>
+                        <Button asChild className='bg-transparent hover:bg-transparent font-extrabold text-xl desktop:text-2xl'>
+                            <Link href="/" className='flex gap-2 items-center'>
+                                <PackageOpenIcon className='text-blue-900'/>
+                                <span className='text-orange-500'>Colisen</span>
+                            </Link>
                         </Button>
                     )
                 }
@@ -39,7 +43,7 @@ export default function Nav() {
                                 navigtions.map(nav => ( <Skeleton className="h-4 w-[100px]" key={`${nav.label}desktop`} /> ))
                             ): (
                                     navigtions.map(nav => (
-                                        <Button asChild key={`${nav.label}desktop`} className="text-custom-dark-10 hover:text-custom-dark-40 bg-transparent hover:bg-transparent">
+                                        <Button asChild key={`${nav.label}desktop`} className="text-custom-dark-10 text-base font-semibold capitalize hover:text-custom-dark-40 bg-transparent hover:bg-transparent">
                                             <Link href={nav.href} className='w-full h-full p-4'>
                                                 {nav.label}
                                             </Link>

@@ -16,7 +16,7 @@ export default function ProtectedPage({ searchParams }: { searchParams: { [key: 
   } = useFilterAnnounce(searchParams, limit)
 
   return (
-    <div className="flex-1 w-full flex justify-center items-center">
+    <div className="flex-1 w-full flex justify-center items-center py-4">
       <div className="flex flex-col items-center w-full max-w-7xl p-3 text-sm space-y-10 desktop:justify-around relative">
             
             <div className="flex flex-col w-fit justify-center items-centerl h-full gap-4 tablet:w-3/4 desktop:flex-row desktop:w-full">

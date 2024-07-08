@@ -57,7 +57,7 @@ function LinkedInIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
 
 export default function Socialmedia({isLabelNeeded, style} : {isLabelNeeded: boolean,style?: string}) {
     return (
-        <div className={`mt-6 flex gap-4 ${style}`}>
+        <div className={`flex gap-4 ${style}`}>
             <SocialLink href="https://twitter.com/dieng_moiza" isLabelNeeded={isLabelNeeded} aria-label="Follow on Twitter" label="Follow on Twitter" icon={TwitterIcon}/>
             <SocialLink href="https://www.instagram.com/mogesslyon/" isLabelNeeded={isLabelNeeded} aria-label="Follow on Instagram" label="Follow on Instagram" icon={InstagramIcon}/>
             <SocialLink href="https://github.com/moussadiengsala" isLabelNeeded={isLabelNeeded} aria-label="Follow on GitHub" label="Follow on GitHub" icon={GitHubIcon}/>
