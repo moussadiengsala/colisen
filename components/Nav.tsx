@@ -43,7 +43,7 @@ export default function Nav() {
                                 navigtions.map(nav => ( <Skeleton className="h-4 w-[100px]" key={`${nav.label}desktop`} /> ))
                             ): (
                                     navigtions.map(nav => (
-                                        <Button asChild key={`${nav.label}desktop`} className="text-custom-dark-10 text-base font-semibold capitalize hover:text-custom-dark-40 bg-transparent hover:bg-transparent">
+                                        <Button asChild key={`${nav.label}desktop`} className="text-custom-dark-10 text-sm font-semibold capitalize hover:text-custom-dark-40 bg-transparent hover:bg-transparent">
                                             <Link href={nav.href} className='w-full h-full p-4'>
                                                 {nav.label}
                                             </Link>

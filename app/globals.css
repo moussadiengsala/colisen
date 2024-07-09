@@ -5,6 +5,9 @@
 
 @layer base {
   :root {
+    --font-roboto: 'Roboto', sans-serif;
+    --font-inter: 'Inter', sans-serif;
+    --font-poppins: 'Poppins', sans-serif;
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
@@ -48,7 +51,8 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
   }
-  .card-dimensions {
-    @apply mx-auto w-1/2 max-w-xl min-w-96;
-  }
+}
+
+body {
+  font-family: var(--font-poppins);
 }

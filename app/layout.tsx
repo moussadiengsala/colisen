@@ -1,36 +1,48 @@
 
-import { GeistSans } from "geist/font/sans";
 import "./globals.css";
-
-import { Inter as FontSans } from "next/font/google"
-import { cn } from "@/lib/utils"
 import Nav from "@/components/Nav";
 import ReactQueryClientProvider from "@/components/ReactQueryClientProvider";
 import Footer from "@/components/ui/Footer";
-const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-})
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "http://localhost:3000";
 
 export const metadata = {
-  metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+    metadataBase: new URL(defaultUrl),
+    title: "Colisen - Plateforme de Transport International",
+    description: "Colisen est une plateforme web qui connecte les GP avec les personnes qui ont besoin de transporter des marchandises à l'international.",
+    keywords: "transport international, GP, expédition, logistique, suivi colis, paiement sécurisé",
+    openGraph: {
+      type: 'website',
+      locale: 'fr_FR',
+      url: defaultUrl,
+      site_name: 'Colisen',
+      title: "Colisen - Plateforme de Transport International",
+      description: "Colisen est une plateforme web qui connecte les GP avec les personnes qui ont besoin de transporter des marchandises à l'international.",
+      images: [
+        {
+          url: `${defaultUrl}/favicon.ico`,
+          width: 800,
+          height: 600,
+          alt: 'Colisen',
+        },
+      ],
+    },
+    // twitter: {
+    //   card: 'summary_large_image',
+    //   site: '@colisen',
+    //   title: "Colisen - Plateforme de Transport International",
+    //   description: "Colisen est une plateforme web qui connecte les GP avec les personnes qui ont besoin de transporter des marchandises à l'international.",
+    //   image: `${defaultUrl}/images/twitter-image.jpg`,
+    // },
 };
 
-export default function RootLayout({
-    children,
-  }: {
-    children: React.ReactNode;
-  }) {
+export default function RootLayout({ children }: {  children: React.ReactNode }) {
   return (
     <ReactQueryClientProvider>
-      <html lang="en" suppressHydrationWarning >
-        <body  className={cn( "min-h-screen font-sans antialiased", fontSans.variable)}>
+      <html lang="en" suppressHydrationWarning>
+        <body  className={`min-h-screen antialiased`}>
           <Nav />
           <main className="flex flex-col items-center">
             {children}
