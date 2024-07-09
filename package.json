@@ -31,7 +31,6 @@
     "country-state-city": "^3.2.1",
     "date-fns": "^3.6.0",
     "geist": "^1.2.1",
-    "lodash": "^4.17.21",
     "lucide-react": "^0.390.0",
     "next": "latest",
     "postcss": "8.4.33",

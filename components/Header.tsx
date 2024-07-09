@@ -25,9 +25,9 @@ export default function Header() {
                 <Link href="create-annonce" className='w-full h-full'>Publier une annonce</Link>
             </Button>
 
-            <Image width={300} height={100} src="/bg-3.svg" alt="bg3" className='absolute w-10 left-0 -top-5 -z-[100] tablet:left-[10%]' />
+            {/* <Image width={300} height={100} src="/bg-3.svg" alt="bg3" className='absolute w-10 left-0 -top-5 -z-[100] tablet:left-[10%]' />
             <Image width={300} height={100} src="/bg-4.svg" alt="bg4" className='absolute w-10 right-0 top-1/4 -z-[100] tablet:right-[10%]' />
-            <Image width={300} height={100} src="/bg-5.svg" alt="bg5" className='absolute w-10 right-1/4 bottom-0 -z-[100]' />
+            <Image width={300} height={100} src="/bg-5.svg" alt="bg5" className='absolute w-10 right-1/4 bottom-0 -z-[100]' /> */}
         </div>
         <QuickSearch />
       </div>

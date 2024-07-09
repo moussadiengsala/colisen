@@ -41,7 +41,7 @@ export const metadata = {
 export default function RootLayout({ children }: {  children: React.ReactNode }) {
   return (
     <ReactQueryClientProvider>
-      <html lang="en" suppressHydrationWarning>
+      <html lang="fr" suppressHydrationWarning>
         <body  className={`min-h-screen antialiased`}>
           <Nav />
           <main className="flex flex-col items-center">
