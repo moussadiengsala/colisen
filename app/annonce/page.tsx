@@ -1,11 +1,9 @@
 "use client"
 import Annonce, { AnnonceSkeleton } from "@/components/ui/annonce";
 import Filter from "@/components/ui/filter";
-import { Input } from "@/components/ui/input";
 import Search from "@/components/ui/search";
 import PaginationAnnounce from "@/components/ui/announce-pagination";
 import useFilterAnnounce from "@/hooks/use-filter-announce";
-import { useEffect } from "react";
 
 export default function ProtectedPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   const limit = 2

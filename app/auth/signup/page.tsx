@@ -14,7 +14,6 @@ import { headers } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { InfoLog } from "../../../components/ui/info-log"
-import UploadAvatar from "@/components/updateProfile"
 
 export default function SignUp({
         searchParams,
