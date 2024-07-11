@@ -1,9 +1,10 @@
+"use client"
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { SubmitButton } from '@/components/ui/submit-button';
-import React from 'react'
-import { createClient } from "@/utils/supabase/server"
-import { redirect } from "next/navigation"
+import React, { useState } from 'react'
+// import { createClient } from "@/utils/supabase/server"
+// import { redirect } from "next/navigation"
 import {
     Card,
     CardContent,
@@ -12,29 +13,30 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { InfoLog } from '../../../components/ui/info-log';
-import { headers } from 'next/headers';
+import useSupabase from '@/hooks/use-supabase';
+// import { headers } from 'next/headers';
 
-export default function ForgetPassword({
-    searchParams
-}: {
-    searchParams: { message: string, iserror: boolean };
-}) {
+export default function ForgetPassword() {
+    const [error, setError] = useState<{message: string, status: number | undefined, isError: boolean}>({message: "", status: undefined, isError: false})
+    const supabase = useSupabase();
+    
     const resetPassword = async (formData: FormData) => {
-        "use server";
-
-        const origin = headers().get("origin");
+        const origin =  window.location.origin;
         const email = formData.get("email") as string;
-        const supabase = createClient();
         
-        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
             redirectTo: `${origin}/auth/update-password`,
         })
 
-        if (error) {
-            return redirect("forget-password?message=Trouble pour reinitialiser le mot de passe&iserror=true");
+        if (resetError) {
+            // redirect("forget-password?message=Trouble pour reinitialiser le mot de passe&iserror=true");
+            setError({message: resetError.message, status: resetError.status, isError: true});
+            return;
         }
 
-        return redirect("forget-password?message=Verifier votre email pour reinitialiser le mot de passe&iserror=false");
+        // redirect("forget-password?message=Verifier votre email pour reinitialiser le mot de passe&iserror=false");
+        setError({message: "Verifier votre email pour reinitialiser le mot de passe", status: 200, isError: false});
+        return;
     };
 
     return (
@@ -62,8 +64,8 @@ export default function ForgetPassword({
                             Reinitialiser
                         </SubmitButton>
                     </form>
-                    {searchParams?.message && (
-                        <InfoLog message={searchParams.message} error={searchParams.iserror} />
+                    {error.message.length != 0 && (
+                        <InfoLog message={error.message} error={error.isError} />
                     )}
                 </CardContent>
             </Card>

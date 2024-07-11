@@ -20,7 +20,7 @@ export async function middleware(request: NextRequest) {
   } else {
     // If there is a session and the user is trying to access the sign-in page, redirect them to the previous page
     if (pathname.includes("/auth")) {
-      const previousPageUrl = new URL("/annonces", baseUrl);
+      const previousPageUrl = new URL("/annonce", baseUrl);
       return NextResponse.redirect(previousPageUrl);
     }
   }

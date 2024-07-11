@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link"
 import {
     Card,
@@ -10,49 +11,66 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {PhoneInput} from "@/components/ui/numberphone"
 import { SubmitButton } from "@/components/ui/submit-button"
-import { headers } from "next/headers";
-import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
+// import { headers } from "next/headers";
+// import { createClient } from "@/utils/supabase/server";
+// import { redirect } from "next/navigation";
 import { InfoLog } from "../../../components/ui/info-log"
+import useSupabase from "@/hooks/use-supabase"
+import { useState } from "react"
+import { CreateUser } from "@/types/user"
+import { ZodError } from "zod"
 
-export default function SignUp({
-        searchParams,
-    }: {
-        searchParams: { message: string, iserror: boolean };
-    }) {
+export default function SignUp() {
+    const [error, setError] = useState<{message: string | string[], status: number | undefined, isError: boolean}>({message: "", status: undefined, isError: false})
+    const supabase = useSupabase();
 
     const signUp = async (formData: FormData) => {
-        "use server";
     
-        const origin = headers().get("origin");
-        const firstName = formData.get("first-name") as string;
-        const lastName = formData.get("last-name") as string;
-        const telephone = formData.get("telephone") as string;
-        const countryCode = formData.get("telephone-country-code") as string;
-        const fullTelephone = `${countryCode} ${telephone}`
-        const email = formData.get("email") as string;
-        const password = formData.get("password") as string;
-        const supabase = createClient();
-        
-        console.log("Form Data:", { firstName, lastName, fullTelephone, email, password })
-        const { data, error } = await supabase.auth.signUp({
-            email,
-            password,
+        const origin = window.location.origin;
+        // const origin = headers().get("origin");
+
+        const userData = {
+            firstName: formData.get("first-name") as string,
+            lastName: formData.get("last-name") as string,
+            telephone: formData.get("telephone") as string,
+            country_code: formData.get("telephone-country-code") as string,
+            email: formData.get("email") as string,
+            password: formData.get("password") as string,
+        };
+
+        try {
+            CreateUser.parse(userData);
+        } catch (validationError) {
+            if (validationError instanceof ZodError) {
+                const fieldErrors: { [key: string]: string } = {};
+                validationError.errors.forEach((err) => {
+                    fieldErrors[err.path[0]] = err.message;
+                });
+                setError({message: Object.values(fieldErrors), isError: true, status: 400});
+            }
+            return;
+        }
+
+        const { data, error: signUpError } = await supabase.auth.signUp({
+            email: userData.email,
+            password: userData.password,
             options: {
                 emailRedirectTo: `${origin}/auth/callback`,
                 data: {
-                    first_name: firstName,
-                    last_name: lastName,
-                    telephone: fullTelephone
+                    first_name: userData.firstName,
+                    last_name: userData.lastName,
+                    telephone: `${userData.country_code} ${userData.telephone}`
                 }
             },
         });
     
-        if (error) {
-            return redirect("signup?message=Trouble pour vous inscrir reessayer plus tard.&iserror=true");
+        if (signUpError) {
+            setError({message: signUpError.message, status: signUpError.status, isError: true});
+            // redirect("signup?message=Trouble pour vous inscrir reessayer plus tard.&iserror=true");
+            return;
         }
-    
-        return redirect("signup?message=Verifier email pour continue&iserror=false");
+        // redirect("signup?message=Verifier email pour continue&iserror=false");
+        return setError({message: "Verifier email pour continue", status: 200, isError: false}); 
     };
 
     return (
@@ -98,8 +116,8 @@ export default function SignUp({
                             Connexion
                         </Link>
                     </div>
-                    {searchParams?.message && (
-                        <InfoLog message={searchParams.message} error={searchParams.iserror} />
+                    {error.message.length != 0 && (
+                        <InfoLog message={error.message} error={error.isError} />
                     )}
                 </CardContent>
             </Card>

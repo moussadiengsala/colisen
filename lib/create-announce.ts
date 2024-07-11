@@ -1,5 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
-import { AnnoncePostData } from "./annonces";
+import { AnnoncePostData } from "../types/annonces";
 
 export async function createAnnonce(annonceData: AnnoncePostData, user: any) {
     "use server"

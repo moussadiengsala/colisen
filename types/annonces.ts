@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { validateLocation } from './validate-location';
+import { validateLocation } from '../lib/validate-location';
 import { isBefore, isAfter, parseISO, startOfDay } from 'date-fns';
-import { validateDate } from './validate-date';
+import { validateDate } from '../lib/validate-date';
 import { Database } from '@/types/supabase';
 
 export const AnnonceSchema = z.object({

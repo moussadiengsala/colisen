@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link"
 
 import {
@@ -9,30 +10,26 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
 import { InfoLog } from "../../../components/ui/info-log"
 import { SubmitButton } from "@/components/ui/submit-button"
+import useSupabase from "@/hooks/use-supabase"
+import { useState } from "react"
 
-export default function SignIn({
-    searchParams
-}: {
-    searchParams: { message: string, iserror: boolean };
-}) {
+export default function SignIn() {
+    const [error, setError] = useState<{message: string, status: number | undefined}>({message: "", status: undefined})
+    const supabase = useSupabase();
     const signIn = async (formData: FormData) => {
-        "use server";
-    
         const email = formData.get("email") as string;
         const password = formData.get("password") as string;
-        const supabase = createClient();
-    
-        const { error } = await supabase.auth.signInWithPassword({
+        const {error} = await supabase.auth.signInWithPassword({
             email,
             password,
         });
     
         if (error) {
-            return redirect("signin?message=Trouble pour vous coonecter reessayer plus tard.&iserror=true");
+            setError({message: error.message, status: error.status});
+            return;
         }
     
         return redirect("/annonce");
@@ -76,8 +73,8 @@ export default function SignIn({
                             Inscription
                         </Link>
                     </div>
-                    {searchParams?.message && (
-                        <InfoLog message={searchParams.message} error={searchParams.iserror} />
+                    {error.message != "" && (
+                        <InfoLog message={error.message} error={true} />
                     )}
                 </CardContent>
             </Card>

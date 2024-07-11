@@ -22,7 +22,7 @@ export const metadata = {
       description: "Colisen est une plateforme web qui connecte les GP avec les personnes qui ont besoin de transporter des marchandises à l'international.",
       images: [
         {
-          url: `${defaultUrl}/favicon.ico`,
+          url: `${defaultUrl}/images/logo.png`,
           width: 800,
           height: 600,
           alt: 'Colisen',
@@ -36,6 +36,9 @@ export const metadata = {
     //   description: "Colisen est une plateforme web qui connecte les GP avec les personnes qui ont besoin de transporter des marchandises à l'international.",
     //   image: `${defaultUrl}/images/twitter-image.jpg`,
     // },
+    alternates: {
+      canonical: defaultUrl
+    }
 };
 
 export default function RootLayout({ children }: {  children: React.ReactNode }) {
