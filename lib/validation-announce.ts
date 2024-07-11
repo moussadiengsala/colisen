@@ -1,4 +1,4 @@
-import { AnnonceSchema, AnnoncePostData } from '@/lib/annonces';
+import { AnnonceSchema, AnnoncePostData } from '@/types/annonces';
 import { z } from 'zod';
 
 export function validateAnnonceData(entries: { [key: string]: string }) : {
