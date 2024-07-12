@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {CircleAlert, PlaneLanding, PlaneTakeoff, MapPin, CalendarDays, Scale, CircleDollarSign, PhoneCallIcon} from "lucide-react"
 import {
     Card,
@@ -19,6 +19,13 @@ import { Skeleton } from './skeleton'
 import Link from 'next/link'
 
 export default function Annonce({annonce} : {annonce: AnnonceGetData }) {
+    const [message, setMessage] = useState("");
+
+    useEffect(() => {
+        const msg = `Bonjour, je suis intéressé par votre annonce sur Colisen. Lieu de collecte : ${annonce.announce.origin_city}, ${annonce.announce.origin_state}, ${annonce.announce.origin_country} le ${format(parseISO(annonce.announce.departure_date as string), 'dd/MM/yyyy')}. Destination : ${annonce.announce.destination_city}, ${annonce.announce.destination_state}, ${annonce.announce.destination_country}. Merci de me contacter.`
+        setMessage(encodeURIComponent(msg))
+    }, [annonce]) 
+
     return (
         <Card className='bg-custom-light-98 rounded-md w-full max-w-lg tablet:max-w-fit desktop:max-w-full'>
             <CardHeader>
@@ -100,13 +107,12 @@ export default function Annonce({annonce} : {annonce: AnnonceGetData }) {
                     </Card>
                 
                 <Button asChild type='submit' className='bg-custom-dark-10 font-semibold hover:bg-custom-dark-40 w-full'>
-                    <Link href={`https://wa.me/221783813411?text=${"hello"}`}>Consulter</Link>
+                    <Link href={`https://wa.me/${annonce.profile.telephone?.replaceAll(" ", "")}?text=${message}`}>Consulter</Link>
                 </Button>
             </CardContent>
         </Card>
     )
 }
-// https://wa.me/<phone_number>?text=<custom_message>
 
 export function AnnonceSkeleton() {
     return (
