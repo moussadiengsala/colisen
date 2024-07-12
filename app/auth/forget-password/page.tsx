@@ -2,7 +2,7 @@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { SubmitButton } from '@/components/ui/submit-button';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 // import { createClient } from "@/utils/supabase/server"
 // import { redirect } from "next/navigation"
 import {
@@ -16,14 +16,18 @@ import { InfoLog } from '../../../components/ui/info-log';
 import useSupabase from '@/hooks/use-supabase';
 // import { headers } from 'next/headers';
 
-export default function ForgetPassword() {
+export default function ForgetPassword({
+    searchParams
+}: {
+    searchParams: { error_description?: string, error_code?: number };
+}) {
     const [error, setError] = useState<{message: string, status: number | undefined, isError: boolean}>({message: "", status: undefined, isError: false})
     const supabase = useSupabase();
     
     const resetPassword = async (formData: FormData) => {
         const origin =  window.location.origin;
         const email = formData.get("email") as string;
-        
+
         const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
             redirectTo: `${origin}/auth/update-password`,
         })
@@ -38,6 +42,12 @@ export default function ForgetPassword() {
         setError({message: "Verifier votre email pour reinitialiser le mot de passe", status: 200, isError: false});
         return;
     };
+
+    useEffect(() => {
+        if (searchParams.error_description) {
+            setError({ message: searchParams.error_description, status: searchParams.error_code, isError: true });
+        }
+    }, [searchParams]);
 
     return (
         <div className="flex items-center justify-center my-auto w-full max-w-7xl px-3 py-10 text-sm space-y-10 desktop:justify-around relative">
@@ -72,3 +82,11 @@ export default function ForgetPassword() {
         </div>
     )
 }
+
+/**
+    error=access_denied&
+    error_code=403
+    error_description=Email+link+is+invalid+or+has+expired#error=access_denied&
+    error_code=403
+    error_description=Email+link+is+invalid+or+has+expired
+ */
