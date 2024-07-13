@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {CircleAlert, PlaneLanding, PlaneTakeoff, MapPin, CalendarDays, Scale, CircleDollarSign, PhoneCallIcon} from "lucide-react"
+import {CircleAlert, PlaneLanding, PlaneTakeoff, MapPin, CalendarDays, Scale, CircleDollarSign, PhoneCallIcon, MessageCircleIcon} from "lucide-react"
 import {
     Card,
     CardContent,
@@ -107,12 +107,127 @@ export default function Annonce({annonce} : {annonce: AnnonceGetData }) {
                     </Card>
                 
                 <Button asChild type='submit' className='bg-custom-dark-10 font-semibold hover:bg-custom-dark-40 w-full'>
-                    <Link href={`https://wa.me/${annonce.profile.telephone?.replaceAll(" ", "")}?text=${message}`}>Consulter</Link>
+                    <Link href={`announces/${annonce.announce.id}`}>Consulter</Link>
                 </Button>
             </CardContent>
         </Card>
     )
 }
+
+export function SingleAnnonce({annonce} : {annonce: AnnonceGetData }) {
+    const [message, setMessage] = useState("");
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    const toggleDescription = () => {
+        setIsExpanded(!isExpanded);
+    };
+
+    useEffect(() => {
+        const msg = `Bonjour, je suis intéressé par votre annonce sur Colisen. Lieu de collecte : ${annonce.announce.origin_city}, ${annonce.announce.origin_state}, ${annonce.announce.origin_country} le ${format(parseISO(annonce.announce.departure_date as string), 'dd/MM/yyyy')}. Destination : ${annonce.announce.destination_city}, ${annonce.announce.destination_state}, ${annonce.announce.destination_country}. Merci de me contacter.`
+        setMessage(encodeURIComponent(msg))
+    }, [annonce]) 
+
+    return (
+        <Card className='bg-custom-light-98 rounded-md w-full max-w-lg tablet:max-w-fit desktop:max-w-full'>
+            <CardHeader>
+                <div  className='flex items-center gap-2'>
+                    <Avatar>
+                        <DynamicAvatarProfile avatar_url={annonce.profile.avatar_url} /> 
+                    </Avatar>
+                    <div className='flex flex-col font-bold'>
+                        <span>{annonce.profile.first_name}</span>
+                        <span>{annonce.profile.last_name}</span>
+                    </div>
+                </div>
+            </CardHeader>
+            <Separator />
+            <CardContent className='space-y-2'>
+                    <div className='flex flex-col gap-2'>
+                        {annonce.announce.description && 
+                            <div className='my-4 p-2'>
+                                <p>{isExpanded ? annonce.announce.description : `${annonce.announce.description.substring(0, 100)}...`}</p>
+                                {annonce.announce.description.length > 100 && (
+                                    <button onClick={toggleDescription} className='text-blue-500'>
+                                        {isExpanded ? 'View Less' : 'View More'}
+                                    </button>
+                                )}
+                            </div>
+                        }
+                        <Card className='flex flex-col items-center flex-1'>
+                            <CardHeader className='w-full flex flex-row items-center gap-2 px-4 py-2'>
+                                <PlaneLanding />
+                                <CardTitle className='font-light text-base'>
+                                    <p className='text-custom-dark-40'>Lieu de collect des colis et le date de départ.</p>
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className='flex w-full px-4 py-2'>
+                                <div className='space-y-2'>
+                                    <div className='flex items-center gap-4'>
+                                        <MapPin />
+                                        <div className=''>
+                                            <p>{annonce.announce.origin_country} {annonce.announce.origin_state} {annonce.announce.origin_city}</p>
+                                        </div>
+                                    </div>
+                                    <div className='flex items-center gap-4'>
+                                        <CalendarDays />
+                                        <span>{format(parseISO(annonce.announce.departure_date as string), 'EEE MMM dd yyyy')}</span>
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+                        <Card className='flex flex-col items-center flex-1'>
+                            <CardHeader className='w-full flex flex-row items-center gap-2 px-4 py-2'>
+                                <PlaneLanding />
+                                <CardTitle className='font-light text-base'>
+                                    <p className='text-custom-dark-40 text-base font-medium'>La destination du colis et le date d'arrivée prévu.</p>
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className='flex w-full px-4 py-2'>
+                                <div className='space-y-2'>
+                                    <div className='flex items-center gap-4'>
+                                        <MapPin />
+                                        <div className=''>
+                                            <p>{annonce.announce.destination_country} {annonce.announce.destination_state} {annonce.announce.destination_city}</p>
+                                        </div>
+                                    </div>
+                                    <div className='flex items-center gap-4'>
+                                        <CalendarDays />
+                                        <span>{format(parseISO(annonce.announce.departure_date as string), 'EEE MMM dd yyyy')}</span>
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
+                    <Badge variant="outline" className='p-4 flex gap-2 rounded-md'>
+                        <CircleAlert />
+                        <div className="flex justify-center gap-2">
+                            <span>Limit depot</span>
+                            <span>{format(parseISO(annonce.announce.limit_depot as string), 'EEE MMM dd yyyy')}</span>
+                        </div>
+                    </Badge>
+                    <Card className=''>
+                        <CardHeader>
+                            <CardTitle className='font-light text-base'>Tarification</CardTitle>
+                        </CardHeader>
+                        <CardContent className='space-y-3'>
+                                <div className='flex items-center gap-2'>
+                                    <CircleDollarSign />
+                                    <span>{annonce.announce.price_amount}CFA par {annonce.announce.price_unit}</span>
+                                </div>
+                        </CardContent>
+                    </Card>
+                
+                <Button asChild type='submit' className='bg-custom-dark-10 font-semibold hover:bg-custom-dark-40 w-full'>
+                    <Link href={`https://wa.me/${annonce.profile.telephone?.replaceAll(" ", "")}?text=${message}`} className='felx gap-2'>
+                        <MessageCircleIcon />
+                        <span>Discuter</span>
+                    </Link>
+                </Button>
+            </CardContent>
+        </Card>
+    )
+}
+
 
 export function AnnonceSkeleton() {
     return (

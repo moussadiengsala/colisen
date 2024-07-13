@@ -21,7 +21,7 @@ export default function PaginationAnnounce({ total, limit = 5 }: { total: number
     const handlePageChange = (page: number) => {
         const currentParams = new URLSearchParams(searchParams.toString());
         currentParams.set('page', page.toString());
-        router.replace(`/annonce?${currentParams.toString()}`);
+        router.replace(`/announces?${currentParams.toString()}`);
     };
     
     const paginationRange = (start: number, end: number) => {

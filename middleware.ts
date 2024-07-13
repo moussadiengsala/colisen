@@ -12,7 +12,7 @@ export async function middleware(request: NextRequest) {
 
   if (!session ) {
     // If there is no session and the user is not already on the sign-in page, redirect to the sign-in page
-    if (pathname !== "/" && pathname != "/annonce" && !pathname.includes("/auth")) {
+    if (pathname !== "/" && !pathname.startsWith("/announces") && !pathname.includes("/auth")) {
       const signInUrl = request.nextUrl.clone();
       signInUrl.pathname = "/auth/signin";
       return NextResponse.redirect(signInUrl);
@@ -20,7 +20,7 @@ export async function middleware(request: NextRequest) {
   } else {
     // If there is a session and the user is trying to access the sign-in page, redirect them to the previous page
     if (pathname.includes("/auth")) {
-      const previousPageUrl = new URL("/annonce", baseUrl);
+      const previousPageUrl = new URL("/announces", baseUrl);
       return NextResponse.redirect(previousPageUrl);
     }
   }

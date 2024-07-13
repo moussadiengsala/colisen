@@ -61,7 +61,7 @@ export default function UpdatePassword({ searchParams } : { searchParams: { code
             return;
         }
         
-        return redirect("/annonce");
+        return redirect("/announces");
     };
 
     useEffect(() => {
@@ -99,7 +99,7 @@ export default function UpdatePassword({ searchParams } : { searchParams: { code
                                 required
                             />
                         </div>
-                        <SubmitButton formAction={updatePassword} className="w-full" pendingText="Enregistrement..." >
+                        <SubmitButton formAction={updatePassword} pendingText="Enregistrement..." >
                             Enregistrer
                         </SubmitButton>
                     </form>

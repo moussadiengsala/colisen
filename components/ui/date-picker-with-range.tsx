@@ -36,7 +36,7 @@ export function DatePickerWithRange({ className, name }: DatePickerWithRangeProp
             const currentParams = new URLSearchParams(Array.from(searchParams.entries()));
             currentParams.set(`${name}-from`, format(date.from, "yyyy-MM-dd"));
             currentParams.set(`${name}-to`, format(date.to, "yyyy-MM-dd"));
-            router.replace(`/annonce?${currentParams.toString()}`, {scroll: false});
+            router.replace(`/announces?${currentParams.toString()}`, {scroll: false});
         }
     };
 

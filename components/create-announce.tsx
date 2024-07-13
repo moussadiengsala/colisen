@@ -188,7 +188,7 @@ export default function CreateAnnonce({ createAnnonce, user }: {    createAnnonc
                             <Label htmlFor="description">Informations importantes sur ce colis.</Label>
                             <Textarea placeholder="Entrez votre description ici.    " id="description" name="description" />
                         </div>
-                        <SubmitButton formAction={handleSubmit} className="w-full" pendingText="Creation..." >
+                        <SubmitButton formAction={handleSubmit} pendingText="Creation..." >
                             Creér
                         </SubmitButton>
                     </form>

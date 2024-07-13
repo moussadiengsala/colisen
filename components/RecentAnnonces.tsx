@@ -34,7 +34,7 @@ export default function RecentAnnonces() {
                         <div className="w-full flex flex-col justify-center items-center desktop:flex-row gap-4">
                             {data.map(annonce => (<Annonce annonce={annonce} key={`annonce-${annonce.announce.id}`} />))}
                         </div>
-                        <Link className='flex justify-center items-center rounded-md gap-2 px-5 py-2 w-fit border-2 border-custom-dark-10 text-custom-dark-10 font-semibold hover:border-custom-dark-40 hover:text-custom-dark-40' href="/annonce">
+                        <Link className='flex justify-center items-center rounded-md gap-2 px-5 py-2 w-fit border-2 border-custom-dark-10 text-custom-dark-10 font-semibold hover:border-custom-dark-40 hover:text-custom-dark-40' href="/announces">
                             <span>plus d'annonces</span>
                             <ArrowRightIcon className='w-5 h-5' />
                         </Link>

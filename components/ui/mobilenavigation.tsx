@@ -46,22 +46,17 @@ export function MobileNavLink({
         children: React.ReactNode
     }) {
     return (
-        <Button asChild className='bg-transparent text-custom-dark-10 hover:bg-transparent hover:text-custom-dark-40 font-medium text-xl'>
+        <Button asChild className='text-custom-dark-10 text-base font-semibold capitalize hover:text-custom-dark-40 bg-transparent hover:bg-transparent'>
             <Link href={href}>{children}</Link>
         </Button>
     )
 }
 
 type MobileNavigationProps = {
-    data: {
-        user: User | undefined,
-        isLoading: boolean,
-        isError: boolean,
-    }, 
     navigations: navigation[]
 }
 
-export default function MobileNavigation({navigations, data} : MobileNavigationProps) {
+export default function MobileNavigation({navigations} : MobileNavigationProps) {
     return (
         <Popover>
             <Popover.Button
@@ -72,31 +67,27 @@ export default function MobileNavigation({navigations, data} : MobileNavigationP
             </Popover.Button>
             <Transition.Root>
                 <Transition.Child as={Fragment} enter="duration-150 ease-out" enterFrom="opacity-0" enterTo="opacity-100" leave="duration-150 ease-in" leaveFrom="opacity-100" leaveTo="opacity-0">
-                    <Popover.Overlay className="fixed inset-0 z-10 bg-[#03060d61]/20" />
+                    <Popover.Overlay className="fixed inset-0 z-20 bg-[#03060d61]/20" />
                 </Transition.Child>
                 <Transition.Child as={Fragment} enter="duration-150 ease-out" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100" leave="duration-100 ease-in" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95">
-                    <Popover.Panel
+                    <Popover
                         as="div"
                         className="absolute inset-x-0 z-[100] mt-4 mx-2 flex origin-top flex-col justify-center items-center gap-4 rounded-md bg-white dark:bg-[#03060D] px-8 py-14 text-lg tracking-tight text-slate-900 dark:text-white shadow-xl ring-1 ring-slate-900/5 transition-all duration-500 ease-in-out"
                     >
-                        {data.isLoading ? (
-                                navigations.map(nav => ( <Skeleton className="h-4 w-[100px]" key={`${nav.label}mobile`} /> ))
-                            ): (
-                                navigations.map(nav => (
-                                    <MobileNavLink href={nav.href} key={`${nav.label}mobile`}>
-                                        {nav.label}
-                                    </MobileNavLink> 
-                                )
-                            )
-                        )}  
+                        {
+                            navigations.map(nav => (
+                                <MobileNavLink href={nav.href} key={`${nav.label}mobile`}>
+                                    {nav.label}
+                                </MobileNavLink> 
+                            ))
+                        }
 
-                        <AuthButton isMobile={true} data={data}/>
-                                
+                        <AuthButton isMobile={true} />
                         <hr className="border-1 w-full border-custom-light-90" />
                         <div className="">
                             <Socialmedia isLabelNeeded={false} />
                         </div>
-                    </Popover.Panel>
+                    </Popover>
                 </Transition.Child>
             </Transition.Root>
         </Popover>

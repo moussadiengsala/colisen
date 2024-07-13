@@ -70,7 +70,7 @@ export default function ForgetPassword({
                                 required
                             />
                         </div>
-                        <SubmitButton formAction={resetPassword} className="w-full" pendingText="Reinitialisation..." >
+                        <SubmitButton formAction={resetPassword} pendingText="Reinitialisation..." >
                             Reinitialiser
                         </SubmitButton>
                     </form>

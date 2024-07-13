@@ -122,7 +122,7 @@ export default function AvatarProfile({ searchParams }: { searchParams: { userid
                                 disabled={uploading}
                                 required />
                         </div>
-                        <SubmitButton formAction={updateProfile} className="w-full" pendingText="uploadding..." >
+                        <SubmitButton formAction={updateProfile} pendingText="uploadding..." >
                             enregistrer
                         </SubmitButton>
                     </form>

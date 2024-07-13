@@ -172,7 +172,7 @@ export function SelectCountry({ setCountry, setState, setCity, isForFilter, name
                 currentParams.set(`${name}-country`, selectedCountry.name);
                 currentParams.delete(`${name}-state`);
                 currentParams.delete(`${name}-city`);
-                router.replace(`/annonce?${currentParams.toString()}`, { scroll: false });
+                router.replace(`/announces?${currentParams.toString()}`, { scroll: false });
             }
 
         }
@@ -232,7 +232,7 @@ export function SelectState({ setState, setCity, state, isForFilter, name }: Sel
                 const currentParams = new URLSearchParams(searchParams.toString());
                 currentParams.set(`${name}-state`, selectedState.name);
                 currentParams.delete(`${name}-city`);
-                router.replace(`/annonce?${currentParams.toString()}`);
+                router.replace(`/announces?${currentParams.toString()}`);
             }
         }
     };
@@ -288,7 +288,7 @@ export function SelectCity({ setCity, city, isForFilter }: SelectCityProps) {
                 // router.push(`/annonce?country=${selectedCity.countryCode}&state=${selectedCity.stateCode}&city=${selectedCity.name}`);
                 const currentParams = new URLSearchParams(searchParams.toString());
                 currentParams.set(`${name}-city`, selectedCity.name);
-                router.replace(`/annonce?${currentParams.toString()}`);
+                router.replace(`/announces?${currentParams.toString()}`);
             }
         }
     };

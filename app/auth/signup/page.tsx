@@ -106,7 +106,7 @@ export default function SignUp() {
                             <Label htmlFor="password">Mot de passe</Label>
                             <Input id="password" name="password" type="password" />
                         </div>
-                        <SubmitButton formAction={signUp} className="w-full" pendingText="Inscription..." >
+                        <SubmitButton formAction={signUp} pendingText="Inscription..." >
                             Inscription
                         </SubmitButton>
                     </form>

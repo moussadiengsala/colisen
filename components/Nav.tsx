@@ -11,16 +11,10 @@ import { PackageOpenIcon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 
 const navigtions: navigation[] = [
-    {label: "annonces", href: "/annonce"},  
+    {label: "annonces", href: "/announces"},  
 ]
 
 export default function Nav() {
-    const { 
-        data, 
-        isLoading, 
-        isError 
-    } = useUserQuery();
-
     const pathUrl = usePathname();
     const isAuthPage = pathUrl.startsWith('/auth/');
 
@@ -34,47 +28,34 @@ export default function Nav() {
                                 <span className='text-orange-500'>Colisen</span>
                             </Link>
                         </Button>
-                    ):(
+                    ) : (
                         <>
-                            {isLoading ? 
-                                (<Skeleton className="h-4 w-[100px]" />) :
-                                (
-                                    <Button asChild className='bg-transparent hover:bg-transparent font-extrabold text-xl desktop:text-2xl'>
-                                        <Link href="/" className='flex gap-2 items-center'>
-                                            <PackageOpenIcon className='text-blue-900'/>
-                                            <span className='text-orange-500'>Colisen</span>
-                                        </Link>
-                                    </Button>
-                                )
-                            }
+                            <Button asChild className='bg-transparent hover:bg-transparent font-extrabold text-xl desktop:text-2xl'>
+                                <Link href="/" className='flex gap-2 items-center'>
+                                    <PackageOpenIcon className='text-blue-900'/>
+                                    <span className='text-orange-500'>Colisen</span>
+                                </Link>
+                            </Button>
                             
-                    
                             <div className='hidden tablet:flex '>
                                 <div className='space-x-4 flex'>
                                     <div className='space-x-2 flex items-center'>
-                                        {isLoading ? (
-                                            navigtions.map(nav => ( <Skeleton className="h-4 w-[100px]" key={`${nav.label}desktop`} /> ))
-                                        ): (
-                                                navigtions.map(nav => (
-                                                    <Button asChild key={`${nav.label}desktop`} className="text-custom-dark-10 text-sm font-semibold capitalize hover:text-custom-dark-40 bg-transparent hover:bg-transparent">
-                                                        <Link href={nav.href} className='w-full h-full p-4'>
-                                                            {nav.label}
-                                                        </Link>
-                                                    </Button>
-                                                ))
-                                            )
+                                        {
+                                            navigtions.map(nav => (
+                                                <Button asChild key={`${nav.label}desktop`} className="text-custom-dark-10 text-sm font-semibold capitalize hover:text-custom-dark-40 bg-transparent hover:bg-transparent">
+                                                    <Link href={nav.href} className='w-full h-full p-4'>
+                                                        {nav.label}
+                                                    </Link>
+                                                </Button>
+                                            ))
                                         }
                                     </div>
-                                    <AuthButton isMobile={false} data={{user: data, isLoading, isError}}/>
+                                    <AuthButton isMobile={false} />
                                 </div>
                             </div>
 
                             <div className="tablet:hidden">
-                                <MobileNavigation navigations={navigtions} data={{
-                                    user: data,
-                                    isLoading,
-                                    isError
-                                }} />
+                                <MobileNavigation navigations={navigtions} />
                             </div>
                         </>
                     )

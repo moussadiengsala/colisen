@@ -9,7 +9,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { Input } from './input'
-import { SearchIcon, SlidersHorizontalIcon } from 'lucide-react'
+import { CircleXIcon, SearchIcon, SlidersHorizontalIcon } from 'lucide-react'
 import { clsx } from "clsx";
 import { Popover, Transition } from "@headlessui/react"
 import { Button } from './button'
@@ -33,7 +33,7 @@ export function QuickSearch() {
         if (destination) {
             currentParams.set('destination', destination);
         } 
-        router.push(`/annonce?${currentParams}`)
+        router.push(`/announces?${currentParams}`)
     }
 
     return (
@@ -71,7 +71,7 @@ export default function Search() {
         } else {
             currentParams.delete('q');
         }
-        router.replace(`/annonce?${currentParams.toString()}`, {scroll: false});
+        router.replace(`/announces?${currentParams.toString()}`, {scroll: false});
     }, 500), [searchParams, router]);
 
     const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,21 +101,29 @@ export default function Search() {
 
                     <Popover className="flex justify-center items-center desktop:hidden">
                         <Popover.Button
-                            className="relative z-[100] flex h-8 w-8 items-center justify-center ui-not-focus-visible:outline-none"
+                            className="relative flex h-8 w-8 items-center justify-center ui-not-focus-visible:outline-none"
                             aria-label="Toggle Navigation"
                             >
                             <SlidersHorizontalIcon />
                         </Popover.Button>
                         <Transition.Root>
                             <Transition.Child as={Fragment} enter="duration-150 ease-out" enterFrom="opacity-0" enterTo="opacity-100" leave="duration-150 ease-in" leaveFrom="opacity-100" leaveTo="opacity-0">
-                                <Popover.Overlay className="fixed inset-0 z-10 bg-[#03060d61]/20" />
+                                <Popover.Overlay className="fixed inset-0 bg-[#03060d61]/20" />
                             </Transition.Child>
                             <Transition.Child as={Fragment} enter="duration-150 ease-out" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100" leave="duration-100 ease-in" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95">
                                 <Popover.Panel
                                     as="div"
-                                    className="absolute inset-x-0 z-[100] mt-4 mx-4 tablet:mx-10 flex origin-top flex-col justify-center items-center transform translate-y-1/2 rounded-md bg-white dark:bg-[#03060D] text-lg tracking-tight text-slate-900 dark:text-white shadow-xl ring-1 ring-slate-900/5 transition-all duration-500 ease-in-out"
+                                    className="absolute inset-x-0 z-50 mx-4 tablet:mx-10 flex origin-top flex-col justify-center items-center transform translate-y-1/2 rounded-md bg-white dark:bg-[#03060D] text-lg tracking-tight text-slate-900 dark:text-white shadow-xl ring-1 ring-slate-900/5 transition-all duration-500 ease-in-out"
                                 >
-                                    <Filter />
+                                    <div className='flex flex-col w-full items-end p-4 space-y-4'>
+                                        <Popover.Button
+                                            className="relative flex h-8 w-8 items-center justify-center ui-not-focus-visible:outline-none"
+                                            aria-label="Toggle Navigation"
+                                            >
+                                            <CircleXIcon className='hover:opacity-75'/>
+                                        </Popover.Button>
+                                        <Filter />
+                                    </div>
                                 </Popover.Panel>
                             </Transition.Child>
                         </Transition.Root>

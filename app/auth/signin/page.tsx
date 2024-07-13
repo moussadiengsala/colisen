@@ -32,7 +32,7 @@ export default function SignIn() {
             return;
         }
     
-        return redirect("/annonce");
+        return redirect("/announces");
     };
 
     return (
@@ -63,7 +63,7 @@ export default function SignIn() {
                         <Link href="/auth/forget-password" className="ml-auto inline-block text-sm underline">
                             J&apos;ai oublié mon mot de passe ?
                         </Link>
-                        <SubmitButton formAction={signIn} className="w-full" pendingText="Connexion..." >
+                        <SubmitButton formAction={signIn} pendingText="Connexion..." >
                             Connexion
                         </SubmitButton>
                     </form>

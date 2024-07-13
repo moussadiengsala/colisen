@@ -58,7 +58,7 @@ export default function SelectPrices() {
             }
         });
 
-        router.replace(`/annonce?${currentParams.toString()}`, { scroll: false });
+        router.replace(`/announces?${currentParams.toString()}`, { scroll: false });
     };
 
     const handleCheckboxChange = (item: Price) => {

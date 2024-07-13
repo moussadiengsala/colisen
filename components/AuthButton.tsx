@@ -17,18 +17,18 @@ import { useEffect } from "react";
 import useUserQuery from "@/hooks/use-user";
 import { Skeleton } from "@/components/ui/skeleton"
 import { User } from "@/types/user";
+import { SubmitButton } from "./ui/submit-button";
 
-type AuthButtonProps = {
-  data: {
-    user: User | undefined,
-    isLoading: boolean,
-    isError: boolean,
-  }, 
-  isMobile: boolean
-}
-export default function AuthButton({ isMobile, data }: AuthButtonProps) {
-    const {user, isLoading, isError} = data;
+type AuthButtonProps = { isMobile: boolean }
 
+export default function AuthButton({ isMobile }: AuthButtonProps) {
+
+    const { 
+        data: user, 
+        isLoading, 
+        isError 
+    } = useUserQuery();
+  
     const signOut = async () => {
       const supabase = getSupabaseBrowserClient();
       await supabase.auth.signOut();
@@ -42,54 +42,57 @@ export default function AuthButton({ isMobile, data }: AuthButtonProps) {
         </div>
     ) : user ? (
       <div className="flex items-center gap-4">
-        {!isMobile ?
-          (<DropdownMenu>
-            <DropdownMenuTrigger className="flex justify-center items-center gap-2">
-              <span>Hey, <strong>{user.profile.first_name} {user.profile.last_name}</strong>!</span>
-              <DynamicAvatarProfile avatar_url={user.profile.avatar_url} />  
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>Mon Compte</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <Button asChild>
-                  <Link href={`/update-profile?userid=${user.profile.id}`}>update profile</Link>
-                </Button>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <form action={signOut} className="w-full">
-                  <Button type="submit" className="w-full bg-custom-sky-50 hover:bg-custom-sky-60">
-                    Logout
+
+        <div className="hidden tablet:block">
+          <DropdownMenu>
+              <DropdownMenuTrigger className="flex justify-center items-center gap-2">
+                <span>Hey, <strong>{user.profile.first_name} {user.profile.last_name}</strong>!</span>
+                <DynamicAvatarProfile avatar_url={user.profile.avatar_url} />  
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="my-5 tablet:flex flex-col hidden">
+                <DropdownMenuLabel>Mon Compte</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="flex-1">
+                  <Button asChild className="w-full bg-blue-900 hover:bg-blue-800 font-bold">
+                    <Link href={`/update-profile?userid=${user.profile.id}`} >update profile</Link>
                   </Button>
-                </form>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>) :
-          <div className="flex flex-col justify-center items-center gap-2">
+                </DropdownMenuItem>
+                <DropdownMenuItem className="flex-1">
+                  <form className="w-full">
+                    <SubmitButton formAction={signOut} pendingText="Déconexion..." className="h-10 w-full">
+                      Déconncter
+                    </SubmitButton>
+                  </form>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+        </div>
+          
+          <div className="flex flex-col justify-center items-center gap-2 tablet:hidden">
             <div className="flex justify-center items-center space-x-2">
               <span>Hey, <strong>{user.profile.first_name} {user.profile.last_name}</strong>!</span>
               <DynamicAvatarProfile avatar_url={user.profile.avatar_url} />
             </div>
             <div className="flex flex-col justify-center items-center gap-2">
-              <Button asChild className="w-full px-4">
+              <Button asChild className="w-full px-4 font-bold bg-blue-900 hover:bg-blue-800">
                 <Link href={`/auth/update-profile?userid=${user.profile.id}`}>update profile</Link>
               </Button>
-              <form action={signOut} className="w-full">
-                <Button type="submit" className="w-full px-4 bg-custom-sky-50 hover:bg-custom-sky-60">
-                  Logout
-                </Button>
+              <form className="w-full">
+                <SubmitButton formAction={signOut} pendingText="Déconexion..." className="w-full h-10 text-sm">
+                  Déconncter
+                </SubmitButton>
               </form>
             </div>
           </div>
-        }
+        
       </div>
     ) : (
         <div className='flex flex-col gap-2 tablet:flex-row'>
-          <Button asChild className='px-4 bg-custom-sky-50 hover:bg-custom-sky-60'>
-              <Link href="auth/signin">Connexion</Link>
+          <Button asChild className='px-4 bg-blue-900 hover:bg-blue-800 font-bold'>
+              <Link href="/auth/signin">Connexion</Link>
           </Button>
-          <Button asChild className='px-4 hover:bg-custom-dark-40'>
-              <Link href="auth/signup">Inscription</Link>
+          <Button asChild className='px-4 hover:bg-custom-dark-40 font-bold'>
+              <Link href="/auth/signup">Inscription</Link>
           </Button>
         </div>
   );
