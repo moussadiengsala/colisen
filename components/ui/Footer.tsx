@@ -2,30 +2,32 @@ import React from 'react'
 import Socialmedia from './socialmedia'
 import { Button } from './button'
 import Link from 'next/link'
-import { FacebookIcon, PhoneIcon } from 'lucide-react'
+import { FacebookIcon, PackageOpenIcon, PhoneIcon, TwitterIcon } from 'lucide-react'
 
 export default function Footer() {
     return (
         <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center items-center text-center text-xs">
             <div className='w-full max-w-7xl p-3 text-sm'>
-                <div className='flex flex-col-reverse gap-5 tablet:gap-0 tablet:flex-row justify-between items-center w-full'>
-                    <p>2024 <strong>Colisen</strong>. Tous droits réservés.</p>
+                <div className='flex flex-col items-center w-full gap-10'>
                     <div className='flex flex-col gap-2'>
-                        <Button asChild className='bg-transparent hover:bg-transparent text-custom-dark-40 hover:text-custom-dark-60 font-semibold p-0'>
-                            <Link href="#" className='flex gap-2 items-center'>
-                                <FacebookIcon />
-                                <span>Visite our page facebook</span>
-                            </Link>
-                        </Button>
-                        <div className='flex gap-2 items-center text-custom-dark-40 hover:text-custom-dark-60 font-semibold'>
-                            <PhoneIcon />
-                            <span>+221 78 000 00 00</span>
+                        <div className='flex justify-center items-center gap-2 font-bold text-xl'>
+                            <PackageOpenIcon className='text-blue-900'/>
+                            <span className='text-orange-500'>Colisen</span>
                         </div>
-                        <div className='flex gap-2 items-center text-custom-dark-40 hover:text-custom-dark-60 font-semibold'>
-                            <PhoneIcon />
-                            <span>+221 70 000 00 00</span>
+                        <div>
+                            <Button asChild className='bg-transparent hover:bg-transparent font-extrabold text-xl desktop:text-2xl'>
+                                    <Link href="/" className='flex gap-2 items-center'>
+                                        <FacebookIcon className='text-blue-900'/>
+                                    </Link>
+                                </Button>
+                                <Button asChild className='bg-transparent hover:bg-transparent font-extrabold text-xl desktop:text-2xl'>
+                                    <Link href="/" className='flex gap-2 items-center'>
+                                        <TwitterIcon className='text-blue-900'/>
+                                    </Link>
+                                </Button>
                         </div>
                     </div>
+                    <p>2024 <strong>Colisen</strong>. Tous droits réservés.</p>
                 </div>
             </div>
         </footer>
