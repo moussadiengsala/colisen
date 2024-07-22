@@ -15,7 +15,7 @@ export function SubmitButton({ children, pendingText, className, ...props }: Pro
     const isPending = pending && action === props.formAction;
     // 
     return (
-        <button {...props} type="submit" aria-disabled={pending} className={clsx(`bg-custom-dark-10 text-white rounded-md font-bold ${className}`, !className && "p-4")}>
+        <button {...props} type="submit" aria-disabled={pending} className={clsx(`bg-blue-900 text-white rounded-md font-bold ${className}`, !className && "p-4")}>
             {isPending ? pendingText : children}
         </button>
     );

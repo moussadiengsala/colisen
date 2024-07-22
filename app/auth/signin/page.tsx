@@ -15,10 +15,15 @@ import { InfoLog } from "../../../components/ui/info-log"
 import { SubmitButton } from "@/components/ui/submit-button"
 import useSupabase from "@/hooks/use-supabase"
 import { useState } from "react"
+import { FacebookIcon } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
 
 export default function SignIn() {
     const [error, setError] = useState<{message: string, status: number | undefined}>({message: "", status: undefined})
     const supabase = useSupabase();
+    const origin = window.location.origin;
+
     const signIn = async (formData: FormData) => {
         const email = formData.get("email") as string;
         const password = formData.get("password") as string;
@@ -34,6 +39,24 @@ export default function SignIn() {
     
         return redirect("/announces");
     };
+
+    async function signInWithFacebook() {
+        const { data, error } = await supabase.auth.signInWithOAuth({
+            provider: 'facebook',
+            options: {
+                redirectTo: `${origin}/auth/callback`,
+            },
+        })
+    }
+
+    async function signInWithGoogle() {
+        const { data, error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo: `${origin}/auth/callback`,
+            },
+        })
+    }
 
     return (
         <div className="flex items-center justify-center my-auto w-full max-w-7xl px-3 py-10 text-sm space-y-10 desktop:justify-around relative">
@@ -72,6 +95,17 @@ export default function SignIn() {
                         <Link href="signup" className="underline">
                             Inscription
                         </Link>
+                    </div>
+                    <div className="flex flex-col gap-4 my-4">
+                        <Separator />
+                        <Button onClick={signInWithFacebook}  className="w-full bg-custom-dark-10 hover:bg-custom-dark-10/90 font-bold p-6 space-x-2">
+                            <FacebookIcon />
+                            <span>Facebook</span>
+                        </Button>
+                        <Button onClick={signInWithGoogle}  className="w-full bg-custom-dark-10 hover:bg-custom-dark-10/90 font-bold p-6 space-x-2">
+                            <FacebookIcon />
+                            <span>Google</span>
+                        </Button>
                     </div>
                     {error.message != "" && (
                         <InfoLog message={error.message} error={true} />

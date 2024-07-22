@@ -9,9 +9,8 @@ export function getUserById(
         .select(`
             id,
             created_at,
-            first_name,
-            last_name,
-            telephone,
+            name,
+            phone,
             avatar_url
         `)
         .eq('id', userId)

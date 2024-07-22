@@ -24,7 +24,6 @@ export type Database = {
           origin_country: string | null
           origin_state: string | null
           price_amount: number | null
-          price_unit: string | null
           total_weight: number | null
           total_weight_unit: string | null
           user_id: string
@@ -43,7 +42,6 @@ export type Database = {
           origin_country?: string | null
           origin_state?: string | null
           price_amount?: number | null
-          price_unit?: string | null
           total_weight?: number | null
           total_weight_unit?: string | null
           user_id: string
@@ -62,7 +60,6 @@ export type Database = {
           origin_country?: string | null
           origin_state?: string | null
           price_amount?: number | null
-          price_unit?: string | null
           total_weight?: number | null
           total_weight_unit?: string | null
           user_id?: string
@@ -81,26 +78,23 @@ export type Database = {
         Row: {
           avatar_url: string | null
           created_at: string
-          first_name: string | null
+          name: string | null
           id: string
-          last_name: string | null
-          telephone: string | null
+          phone: string | null
         }
         Insert: {
           avatar_url?: string | null
           created_at?: string
-          first_name?: string | null
+          name?: string | null
           id?: string
-          last_name?: string | null
-          telephone?: string | null
+          phone?: string | null
         }
         Update: {
           avatar_url?: string | null
           created_at?: string
-          first_name?: string | null
+          name?: string | null
           id?: string
-          last_name?: string | null
-          telephone?: string | null
+          phone?: string | null
         }
         Relationships: [
           {

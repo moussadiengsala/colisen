@@ -30,10 +30,9 @@ export default function SignUp() {
         // const origin = headers().get("origin");
 
         const userData = {
-            firstName: formData.get("first-name") as string,
-            lastName: formData.get("last-name") as string,
-            telephone: formData.get("telephone") as string,
-            country_code: formData.get("telephone-country-code") as string,
+            name: formData.get("name") as string,
+            phone: formData.get("phone") as string,
+            country_code: formData.get("phone-country-code") as string,
             email: formData.get("email") as string,
             password: formData.get("password") as string,
         };
@@ -57,14 +56,14 @@ export default function SignUp() {
             options: {
                 emailRedirectTo: `${origin}/auth/callback`,
                 data: {
-                    first_name: userData.firstName,
-                    last_name: userData.lastName,
-                    telephone: `${userData.country_code} ${userData.telephone}`
+                    name: userData.name,
+                    phone: `${userData.country_code} ${userData.phone}`
                 }
             },
         });
     
         if (signUpError) {
+            console.log(signUpError);
             setError({message: signUpError.message, status: signUpError.status, isError: true});
             // redirect("signup?message=Trouble pour vous inscrir reessayer plus tard.&iserror=true");
             return;
@@ -84,19 +83,13 @@ export default function SignUp() {
                 </CardHeader>
                 <CardContent>
                     <form className="grid gap-4">
-                        <div className="grid grid-rows-2 gap-4 tablet:grid-cols-2 tablet:grid-rows-1">
-                            <div className="grid gap-2">
-                                <Label htmlFor="first-name">Prenom</Label>
-                                <Input id="first-name" name="first-name" placeholder="Max" required />
-                            </div>
-                            <div className="grid gap-2">
-                                <Label htmlFor="last-name">Nom</Label>
-                                <Input id="last-name" name="last-name" placeholder="Robinson" required />
-                            </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="name">Prenom Nom</Label>
+                            <Input id="name" name="name" placeholder="Robinson" required />
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor="telephone">Telephone</Label>
-                            <PhoneInput id="telephone" name="telephone" defaultCountry="SN" required />
+                            <Label htmlFor="phone">Telephone</Label>
+                            <PhoneInput id="phone" name="phone" defaultCountry="SN" required />
                         </div>
                         <div className="grid gap-2">
                             <Label htmlFor="email">Email</Label>

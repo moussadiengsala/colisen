@@ -2,13 +2,10 @@ import { z } from "zod";
 import { Database } from "./supabase"
 
 export const CreateUser = z.object({
-    firstName: z.string()
-        .min(1, { message: "Le prénom est requis." })
-        .max(18, { message: "Le prénom doit comporter au maximum 18 caractères." }),
-    lastName: z.string()
+    name: z.string()
         .min(1, { message: "Le nom est requis." })
         .max(18, { message: "Le nom doit comporter au maximum 18 caractères." }),
-    telephone: z.string()
+    phone: z.string()
         .min(10, { message: "Le numéro de téléphone doit comporter au moins 10 chiffres." })
         .max(15, { message: "Le numéro de téléphone doit comporter au maximum 15 chiffres." }),
     country_code: z.string()
