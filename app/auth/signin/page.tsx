@@ -18,15 +18,18 @@ import { useState } from "react"
 import { FacebookIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import { defaultUrl } from "@/app/layout"
+
+
+
 
 export default function SignIn() {
     const [error, setError] = useState<{message: string, status: number | undefined}>({message: "", status: undefined})
     const supabase = useSupabase();
-    let origin = defaultUrl;
-    if (typeof window !== "undefined") {
-        origin = window.location.origin
-    }
+
+    const defaultUrl = process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : "http://localhost:3000";
+    let origin = typeof window !== "undefined" ? window.location.origin : defaultUrl;
 
     const signIn = async (formData: FormData) => {
         const email = formData.get("email") as string;

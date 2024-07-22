@@ -4,7 +4,7 @@ import Nav from "@/components/Nav";
 import ReactQueryClientProvider from "@/components/ReactQueryClientProvider";
 import Footer from "@/components/ui/Footer";
 
-export const defaultUrl = process.env.VERCEL_URL
+const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "http://localhost:3000";
 
