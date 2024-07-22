@@ -18,11 +18,15 @@ import { useState } from "react"
 import { FacebookIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
+import { defaultUrl } from "@/app/layout"
 
 export default function SignIn() {
     const [error, setError] = useState<{message: string, status: number | undefined}>({message: "", status: undefined})
     const supabase = useSupabase();
-    const origin = window.location.origin;
+    let origin = defaultUrl;
+    if (typeof window !== "undefined") {
+        origin = window.location.origin
+    }
 
     const signIn = async (formData: FormData) => {
         const email = formData.get("email") as string;
