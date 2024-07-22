@@ -33,9 +33,8 @@ export default function Annonce({annonce} : {annonce: AnnonceGetData }) {
                     <Avatar>
                         <DynamicAvatarProfile avatar_url={annonce.profile.avatar_url} /> 
                     </Avatar>
-                    <div className='flex flex-col font-bold'>
-                        <span>{annonce.profile.first_name}</span>
-                        <span>{annonce.profile.last_name}</span>
+                    <div className='font-bold'>
+                        <span>{annonce.profile.name}</span>
                     </div>
                 </div>
             </CardHeader>
@@ -134,9 +133,8 @@ export function SingleAnnonce({annonce} : {annonce: AnnonceGetData }) {
                     <Avatar>
                         <DynamicAvatarProfile avatar_url={annonce.profile.avatar_url} /> 
                     </Avatar>
-                    <div className='flex flex-col font-bold'>
-                        <span>{annonce.profile.first_name}</span>
-                        <span>{annonce.profile.last_name}</span>
+                    <div className=' ont-bold'>
+                        <span>{annonce.profile.name}</span>
                     </div>
                 </div>
             </CardHeader>
@@ -218,7 +216,7 @@ export function SingleAnnonce({annonce} : {annonce: AnnonceGetData }) {
                     </Card>
                 
                 <Button asChild type='submit' className='bg-custom-dark-10 font-semibold hover:bg-custom-dark-40 w-full'>
-                    <Link href={`https://wa.me/${annonce.profile.telephone?.replaceAll(" ", "")}?text=${message}`} className='felx gap-2'>
+                    <Link href={`https://wa.me/${annonce.profile.phone?.replaceAll(" ", "")}?text=${message}`} className='felx gap-2'>
                         <MessageCircleIcon />
                         <span>Discuter</span>
                     </Link>
