@@ -34,7 +34,7 @@ export default function Annonce({annonce} : {annonce: AnnonceGetData }) {
                         <DynamicAvatarProfile avatar_url={annonce.profile.avatar_url} /> 
                     </Avatar>
                     <div className='font-bold'>
-                        <span>{annonce.profile.name}</span>
+                        <span>{annonce.profile.full_name}</span>
                     </div>
                 </div>
             </CardHeader>
@@ -134,7 +134,7 @@ export function SingleAnnonce({annonce} : {annonce: AnnonceGetData }) {
                         <DynamicAvatarProfile avatar_url={annonce.profile.avatar_url} /> 
                     </Avatar>
                     <div className=' ont-bold'>
-                        <span>{annonce.profile.name}</span>
+                        <span>{annonce.profile.full_name}</span>
                     </div>
                 </div>
             </CardHeader>

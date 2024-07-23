@@ -9,7 +9,7 @@ export function getUserById(
         .select(`
             id,
             created_at,
-            name,
+            full_name,
             phone,
             avatar_url
         `)

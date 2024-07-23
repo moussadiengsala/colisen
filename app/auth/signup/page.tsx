@@ -56,7 +56,7 @@ export default function SignUp() {
             options: {
                 emailRedirectTo: `${origin}/auth/callback`,
                 data: {
-                    name: userData.name,
+                    full_name: userData.name,
                     phone: `${userData.country_code} ${userData.phone}`
                 }
             },

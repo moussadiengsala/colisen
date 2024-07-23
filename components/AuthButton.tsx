@@ -46,7 +46,7 @@ export default function AuthButton({ isMobile }: AuthButtonProps) {
         <div className="hidden tablet:block">
           <DropdownMenu>
               <DropdownMenuTrigger className="flex justify-center items-center gap-2">
-                <span>Hey, <strong>{user.profile.name}</strong>!</span>
+                <span>Hey, <strong>{user.profile.full_name}</strong>!</span>
                 <DynamicAvatarProfile avatar_url={user.profile.avatar_url} />  
               </DropdownMenuTrigger>
               <DropdownMenuContent className="my-5 tablet:flex flex-col hidden">
@@ -70,7 +70,7 @@ export default function AuthButton({ isMobile }: AuthButtonProps) {
           
           <div className="flex flex-col justify-center items-center gap-2 tablet:hidden">
             <div className="flex justify-center items-center space-x-2">
-              <span>Hey, <strong>{user.profile.name}</strong>!</span>
+              <span>Hey, <strong>{user.profile.full_name}</strong>!</span>
               <DynamicAvatarProfile avatar_url={user.profile.avatar_url} />
             </div>
             <div className="flex flex-col justify-center items-center gap-2">
