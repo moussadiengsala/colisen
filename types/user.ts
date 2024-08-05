@@ -1,13 +1,12 @@
 import { z } from "zod";
 import { Database } from "./supabase"
+import { parsePhoneNumber, parsePhoneNumberFromString } from "libphonenumber-js";
 
 export const CreateUser = z.object({
     name: z.string()
         .min(1, { message: "Le nom est requis." })
         .max(18, { message: "Le nom doit comporter au maximum 18 caractères." }),
-    phone: z.string()
-        .min(10, { message: "Le numéro de téléphone doit comporter au moins 10 chiffres." })
-        .max(15, { message: "Le numéro de téléphone doit comporter au maximum 15 chiffres." }),
+    phone: z.string(),
     country_code: z.string()
         .min(1, { message: "Le code pays est requis." })
         .max(4, { message: "Le code pays doit comporter au maximum 4 caractères." }), // Adjust the max length based on the country code format
@@ -15,7 +14,17 @@ export const CreateUser = z.object({
         .email({ message: "L'email doit être valide." }),
     password: z.string()
         .min(8, { message: "Le mot de passe doit comporter au moins 8 caractères." }),
-}).superRefine(({ password }, checkPassComplexity) => {
+}).superRefine(({ password, country_code, phone }, checkPassComplexity) => {
+
+    const phoneNumber = parsePhoneNumber(`+${country_code}${phone}`);
+    if (!phoneNumber.isValid()) {
+        checkPassComplexity.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Le numéro de téléphone n'est pas valide pour le code pays fourni.",
+            path: ["phone"],
+        });
+    }
+    
     const containsUppercase = (ch: string) => /[A-Z]/.test(ch);
     const containsLowercase = (ch: string) => /[a-z]/.test(ch);
 
