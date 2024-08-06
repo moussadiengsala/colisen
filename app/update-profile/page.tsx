@@ -31,7 +31,7 @@ export default function AvatarProfile({ searchParams }: { searchParams: { userid
 
     const size = 200
     const [error, setError] = useState<{message: string, isError: boolean}>({message: "", isError: false});
-    const [avatarUrl, setAvatarUrl] = useState(data?.profile.avatar_url)
+    const [avatarUrl, setAvatarUrl] = useState<string|null>(null)
     const [uploading, setUploading] = useState(false)
     const [ uploadedFile, setUploadedFile ] = useState<{file: File | null, filePath: string}>({file: null, filePath: ""})
     
@@ -71,7 +71,7 @@ export default function AvatarProfile({ searchParams }: { searchParams: { userid
         };
         
         try {
-            setUploading(() => true)
+            setUploading(true) // there is an issue here
             const { data: uploadData, error: uploadError } = await client.storage.from('avatars').upload(uploadedFile.filePath, uploadedFile.file)
             if (uploadError) {
                 throw uploadError
@@ -93,13 +93,27 @@ export default function AvatarProfile({ searchParams }: { searchParams: { userid
             setError({message: error.message, isError: true});
         } finally {
             setUploading(false)
-            console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
         }
     };
 
+    async function downloadImage(path: string) {
+        try {
+            const { data, error } = await client.storage.from('avatars').download(path);
+            if (error) {
+                throw error;
+            }
+            const url = URL.createObjectURL(data);
+            setAvatarUrl(url);
+        } catch (error) {
+            setAvatarUrl(null)
+        }
+    }
+
     useEffect(() => {
-        console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk", uploading)
-    }, [uploading])
+        if (data?.profile.avatar_url) {
+            downloadImage(data.profile.avatar_url);
+        }
+    }, [data])
 
     return (
         <div className="flex items-center justify-center my-auto w-full max-w-7xl px-3 py-10 text-sm space-y-10 desktop:justify-around relative">
