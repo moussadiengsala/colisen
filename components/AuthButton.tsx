@@ -18,21 +18,18 @@ import useUserQuery from "@/hooks/use-user";
 import { Skeleton } from "@/components/ui/skeleton"
 import { User } from "@/types/user";
 import { SubmitButton } from "./ui/submit-button";
+import { useRouter } from "next/navigation";
 
 type AuthButtonProps = { isMobile: boolean }
 
 export default function AuthButton({ isMobile }: AuthButtonProps) {
-
-    const { 
-        data: user, 
-        isLoading, 
-        isError 
-    } = useUserQuery();
+  const { data: user, isLoading, isError  } = useUserQuery();
+  const router = useRouter()
   
-    const signOut = async () => {
+  const signout = async () => {
       const supabase = getSupabaseBrowserClient();
-      await supabase.auth.signOut();
-      return redirect("auth/signin");
+      await supabase.auth.signOut();  
+      return window.location.reload();
     };
 
     return isLoading ? (
@@ -54,12 +51,12 @@ export default function AuthButton({ isMobile }: AuthButtonProps) {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="flex-1">
                   <Button asChild className="w-full bg-blue-900 hover:bg-blue-800 font-bold">
-                    <Link href={`/update-profile?userid=${user.profile.id}`} >update profile</Link>
+                    <Link href="/update-profile" >update profile</Link>
                   </Button>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="flex-1">
                   <form className="w-full">
-                    <SubmitButton formAction={signOut} pendingText="Déconexion..." className="h-10 w-full">
+                    <SubmitButton formAction={signout} pendingText="Déconexion..." className="h-10 w-full">
                       Déconncter
                     </SubmitButton>
                   </form>
@@ -75,10 +72,10 @@ export default function AuthButton({ isMobile }: AuthButtonProps) {
             </div>
             <div className="flex flex-col justify-center items-center gap-2">
               <Button asChild className="w-full px-4 font-bold bg-blue-900 hover:bg-blue-800">
-                <Link href={`/auth/update-profile?userid=${user.profile.id}`}>update profile</Link>
+                <Link href="/update-profile">update profile</Link>
               </Button>
               <form className="w-full">
-                <SubmitButton formAction={signOut} pendingText="Déconexion..." className="w-full h-10 text-sm">
+                <SubmitButton formAction={signout} pendingText="Déconexion..." className="w-full h-10 text-sm">
                   Déconncter
                 </SubmitButton>
               </form>

@@ -17,7 +17,7 @@ import useUserQuery from '@/hooks/use-user'
 import useSupabase from '@/hooks/use-supabase'
 import { InfoLog } from '@/components/ui/info-log'
 
-export default function AvatarProfile({ searchParams }: { searchParams: { userid: string} }) {
+export default function AvatarProfile() {
     const client = useSupabase()
     const {
         data,
@@ -78,7 +78,7 @@ export default function AvatarProfile({ searchParams }: { searchParams: { userid
             }
 
             const updates = {
-                id: searchParams?.userid,
+                id: data?.profile.id,
                 avatar_url: uploadData.path,
             };
         
