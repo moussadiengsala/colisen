@@ -6,9 +6,13 @@ import Footer from "@/components/ui/Footer";
 
 export const metadata = {
     metadataBase: new URL("https://www.colisen.store"),
-    title: "Colisen",
+    title: "colisen",
+    applicationName: "colisen",
     description: "Colisen est une plateforme web qui connecte les GP avec les personnes qui ont besoin de transporter des marchandises à l'international.",
-    keywords: "transport international, GP, expédition, logistique, suivi colis, paiement sécurisé",
+    keywords: ["transport", "international", "GP", "expédition", "logistique", "suivi", "colis", "paiement", "sécurisé", "gestion", "colisen"],
+    authors: [{name: "Moussa Dieng", url: "https://www.moussa-dieng.dev"}],
+    creator: "Moussa Dieng",
+    publisher: "Moussa Dieng",
     openGraph: {
       type: 'website',
       locale: 'fr_FR',
@@ -21,7 +25,7 @@ export const metadata = {
           url: `https://www.colisen.store/images/logo.png`,
           width: 800,
           height: 600,
-          alt: 'Colisen',
+          alt: 'colisen',
         },
       ],
     },
@@ -34,8 +38,9 @@ export const metadata = {
     // },
     alternates: {
       canonical: "https://www.colisen.store"
-    }
+    },
 };
+
 
 export default function RootLayout({ children }: {  children: React.ReactNode }) {
   return (
