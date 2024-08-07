@@ -10,6 +10,13 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const baseUrl = `${request.nextUrl.protocol}//${request.nextUrl.host}`;
 
+  // Skip auth check for public paths like sitemap.xml, robots.txt, etc.
+  const publicPaths = ['/sitemap.xml', '/robots.txt'];
+
+  if (publicPaths.includes(pathname)) {
+    return NextResponse.next(); // Allow public paths without session check
+  }
+
   if (!session ) {
     // If there is no session and the user is not already on the sign-in page, redirect to the sign-in page
     if (pathname !== "/" && !pathname.startsWith("/announces") && !pathname.includes("/auth")) {

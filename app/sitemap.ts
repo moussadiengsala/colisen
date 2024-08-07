@@ -11,7 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         {
             url: 'https://colisen.store/announces',
             lastModified: new Date(),
-            changeFrequency: 'monthly',
+            changeFrequency: 'yearly',
             priority: 0.8,
         },
         
