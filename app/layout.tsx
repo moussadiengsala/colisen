@@ -5,7 +5,7 @@ import ReactQueryClientProvider from "@/components/ReactQueryClientProvider";
 import Footer from "@/components/ui/Footer";
 
 export const metadata = {
-    metadataBase: new URL("https://www.colisen.store"),
+    metadataBase: new URL("https://colisen.store"),
     title: "colisen",
     applicationName: "colisen",
     description: "Colisen est une plateforme web qui connecte les GP avec les personnes qui ont besoin de transporter des marchandises à l'international.",
@@ -16,13 +16,13 @@ export const metadata = {
     openGraph: {
       type: 'website',
       locale: 'fr_FR',
-      url: "https://www.colisen.store",
+      url: "https://colisen.store",
       site_name: 'Colisen',
       title: "Colisen - Plateforme de Transport International",
       description: "Colisen est une plateforme web qui connecte les GP avec les personnes qui ont besoin de transporter des marchandises à l'international.",
       images: [
         {
-          url: `https://www.colisen.store/images/logo.png`,
+          url: `https://colisen.store/images/logo.png`,
           width: 800,
           height: 600,
           alt: 'colisen',
