@@ -4,25 +4,21 @@ import Nav from "@/components/Nav";
 import ReactQueryClientProvider from "@/components/ReactQueryClientProvider";
 import Footer from "@/components/ui/Footer";
 
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
-
 export const metadata = {
-    metadataBase: new URL(defaultUrl),
-    title: "Colisen - Plateforme de Transport International",
+    metadataBase: new URL("https://www.colisen.store"),
+    title: "Colisen",
     description: "Colisen est une plateforme web qui connecte les GP avec les personnes qui ont besoin de transporter des marchandises à l'international.",
     keywords: "transport international, GP, expédition, logistique, suivi colis, paiement sécurisé",
     openGraph: {
       type: 'website',
       locale: 'fr_FR',
-      url: defaultUrl,
+      url: "https://www.colisen.store",
       site_name: 'Colisen',
       title: "Colisen - Plateforme de Transport International",
       description: "Colisen est une plateforme web qui connecte les GP avec les personnes qui ont besoin de transporter des marchandises à l'international.",
       images: [
         {
-          url: `${defaultUrl}/images/logo.png`,
+          url: `https://www.colisen.store/images/logo.png`,
           width: 800,
           height: 600,
           alt: 'Colisen',
@@ -37,7 +33,7 @@ export const metadata = {
     //   image: `${defaultUrl}/images/twitter-image.jpg`,
     // },
     alternates: {
-      canonical: defaultUrl
+      canonical: "https://www.colisen.store"
     }
 };
 
