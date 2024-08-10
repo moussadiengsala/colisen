@@ -1,0 +1,20 @@
+# robots.txt for colisen.store
+
+User-agent: *
+Disallow: /admin/
+Disallow: /api/
+Disallow: /auth/
+Disallow: /private/
+Disallow: /internal/
+Disallow: /config/
+Disallow: /temporary/
+Disallow: /*.json$
+Disallow: /*.xml$
+Disallow: /*?search=
+
+# Allow search engines to index the main pages
+Allow: /
+Allow: /announces
+
+# Sitemap
+Sitemap: https://colisen.store/sitemap.xml

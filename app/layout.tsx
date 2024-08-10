@@ -6,7 +6,10 @@ import Footer from "@/components/ui/Footer";
 
 export const metadata = {
     metadataBase: new URL("https://colisen.store"),
-    title: "colisen",
+    title: {
+      default: "colisen",
+      template: "%s - colisen"
+    },
     applicationName: "colisen",
     description: "Colisen est une plateforme web qui connecte les GP avec les personnes qui ont besoin de transporter des marchandises à l'international.",
     keywords: ["transport", "international", "GP", "expédition", "logistique", "suivi", "colis", "paiement", "sécurisé", "gestion", "colisen"],
