@@ -19,23 +19,23 @@ type Price = {
 const items = [
     {
         id: "tranche1",
-        label: "100CFA - 200CFA",
-        value: "100-200"
+        label: "1000CFA - 2000CFA",
+        value: "1000-2000"
     },
     {
         id: "tranche2",
-        label: "200CFA - 300CFA",
-        value: "200-300"
+        label: "2000CFA - 3000CFA",
+        value: "2000-3000"
     },
     {
         id: "tranche3",
-        label: "300CFA - 400CFA",
-        value: "300-400"
+        label: "3000CFA - 4000CFA",
+        value: "3000-4000"
     },
     {
         id: "tranche4",
-        label: "400CFA - 500CFA",
-        value: "400-500"
+        label: "4000CFA - 5000CFA",
+        value: "4000-5000"
     },
 ] as const
 
