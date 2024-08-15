@@ -12,7 +12,7 @@ export const metadata = {
     },
     applicationName: "colisen",
     description: "Colisen est une plateforme web qui connecte les GP avec les personnes qui ont besoin de transporter des marchandises à l'international.",
-    keywords: ["transport", "international", "GP", "expédition", "logistique", "suivi", "colis", "paiement", "sécurisé", "gestion", "colisen"],
+    keywords: ["transport", "international", "GP", "gp", "expédition", "logistique", "suivi", "colis", "paiement", "sécurisé", "gestion", "colisen", "senegal", "dakar", "pikine"],
     authors: [{name: "Moussa Dieng", url: "https://www.moussa-dieng.dev"}],
     creator: "Moussa Dieng",
     publisher: "Moussa Dieng",
@@ -60,3 +60,5 @@ export default function RootLayout({ children }: {  children: React.ReactNode })
     </ReactQueryClientProvider>
   );
 }
+
+
